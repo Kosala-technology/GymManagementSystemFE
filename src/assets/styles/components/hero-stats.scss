@@ -1,0 +1,84 @@
+// Import reusable design variables
+@use "../variables" as *;
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+
+  width: 100%;
+  margin-top: 44px;
+  padding-top: 28px;
+
+  border-top: 1px solid $border-color;
+}
+
+.stat-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.stat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 42px;
+  height: 42px;
+
+  color: $color-primary;
+  background-color: $background-soft-red;
+  border-radius: $radius-medium;
+}
+
+.stat-title,
+.stat-description {
+  display: block;
+}
+
+.stat-title {
+  margin-bottom: 3px;
+
+  color: $text-primary;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.stat-description {
+  color: $text-muted;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+// Tablet
+@media (max-width: $breakpoint-tablet) {
+  .hero-stats {
+    max-width: 680px;
+    margin-inline: auto;
+  }
+
+  .stat-item {
+    text-align: left;
+  }
+}
+
+// Mobile
+@media (max-width: $breakpoint-mobile) {
+  .hero-stats {
+    grid-template-columns: 1fr;
+    gap: 14px;
+
+    max-width: 360px;
+    margin-top: 34px;
+    padding-top: 24px;
+  }
+
+  .stat-item {
+    padding: 10px;
+
+    background-color: $background-secondary;
+    border-radius: $radius-medium;
+  }
+}

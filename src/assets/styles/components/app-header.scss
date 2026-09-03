@@ -1,0 +1,242 @@
+// Import the PULSEFIT design variables
+@use "../variables" as *;
+
+// --------------------------------------------------
+// Header layout
+// --------------------------------------------------
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  width: 100%;
+  height: $header-height;
+
+  background-color: rgba($background-primary, 0.94);
+  border-bottom: 1px solid rgba($border-color, 0.9);
+  backdrop-filter: blur(16px);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+// --------------------------------------------------
+// Brand and logo
+// --------------------------------------------------
+
+.brand {
+  display: inline-flex;
+  gap: 11px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.brand-symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  color: $text-on-primary;
+  background-color: $color-primary;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba($color-primary, 0.22);
+
+  transform: rotate(-4deg);
+  transition: $transition-default;
+}
+
+.brand:hover .brand-symbol {
+  background-color: $color-primary-hover;
+  transform: rotate(0deg) scale(1.04);
+}
+
+.brand-name {
+  color: $text-primary;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.brand-name span {
+  color: $color-primary;
+}
+
+// --------------------------------------------------
+// Desktop navigation
+// --------------------------------------------------
+
+.desktop-navigation {
+  display: flex;
+  gap: 34px;
+  align-items: center;
+}
+
+.navigation-link {
+  position: relative;
+  padding: 10px 0;
+
+  color: $text-secondary;
+  font-size: 0.92rem;
+  font-weight: 600;
+
+  transition: $transition-default;
+}
+
+.navigation-link::after {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+
+  width: 0;
+  height: 2px;
+
+  content: "";
+  background-color: $color-primary;
+  border-radius: $radius-rounded;
+
+  transform: translateX(-50%);
+  transition: width 0.25s ease;
+}
+
+.navigation-link:hover,
+.navigation-link.active {
+  color: $text-primary;
+}
+
+.navigation-link:hover::after,
+.navigation-link.active::after {
+  width: 20px;
+}
+
+// --------------------------------------------------
+// Desktop action buttons
+// --------------------------------------------------
+
+.desktop-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.login-button {
+  font-weight: 600;
+}
+
+.register-button {
+  min-width: 126px;
+  height: 46px;
+  padding-inline: 20px;
+
+  font-weight: 700;
+  box-shadow: $shadow-primary;
+
+  transition: $transition-default;
+}
+
+.register-button:hover {
+  background-color: $color-primary-hover;
+  box-shadow: 0 15px 34px rgba($color-primary, 0.3);
+  transform: translateY(-2px);
+}
+
+.mobile-menu-button {
+  display: none;
+}
+
+// --------------------------------------------------
+// Mobile navigation drawer
+// --------------------------------------------------
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.drawer-brand-symbol {
+  width: 40px;
+  height: 40px;
+}
+
+.drawer-brand-name {
+  font-size: 1.15rem;
+}
+
+.mobile-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 14px;
+}
+
+.mobile-navigation-link {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+
+  min-height: 52px;
+  padding: 12px 16px;
+
+  color: $text-secondary;
+  font-weight: 600;
+  border-radius: $radius-medium;
+
+  transition: $transition-default;
+}
+
+.mobile-navigation-link:hover,
+.mobile-navigation-link.active {
+  color: $color-primary;
+  background-color: $background-soft-red;
+}
+
+.mobile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 20px 24px;
+}
+
+// --------------------------------------------------
+// Tablet responsive styles
+// --------------------------------------------------
+
+@media (max-width: $breakpoint-tablet) {
+  .desktop-navigation,
+  .desktop-actions {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: inline-flex;
+  }
+}
+
+// --------------------------------------------------
+// Mobile responsive styles
+// --------------------------------------------------
+
+@media (max-width: $breakpoint-mobile) {
+  .app-header {
+    height: 70px;
+  }
+
+  .brand-symbol {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand-name {
+    font-size: 1.15rem;
+  }
+}

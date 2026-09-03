@@ -1,0 +1,52 @@
+// --------------------------------------------------
+// PULSEFIT industrial design system
+// --------------------------------------------------
+
+// Main page backgrounds
+$background-primary: #ffffff;
+$background-secondary: #f5f6f8;
+$background-soft-red: #fff4f2;
+
+// Brand colours
+$color-primary: #f04438;
+$color-primary-hover: #d92d20;
+$color-primary-light: #f97066;
+$color-accent: #ff8a00;
+
+// Text colours
+$text-primary: #15181d;
+$text-secondary: #626873;
+$text-muted: #8b9099;
+$text-on-primary: #ffffff;
+
+// UI colours
+$border-color: #e5e7eb;
+$border-color-dark: #d0d5dd;
+$surface-color: #ffffff;
+
+// Status colours
+$success-color: #12b76a;
+$warning-color: #f79009;
+$error-color: #d92d20;
+
+// Shadows
+$shadow-small: 0 4px 14px rgba(21, 24, 29, 0.06);
+$shadow-medium: 0 14px 40px rgba(21, 24, 29, 0.1);
+$shadow-primary: 0 12px 30px rgba(240, 68, 56, 0.24);
+
+// Layout measurements
+$container-max-width: 1280px;
+$header-height: 80px;
+
+// Border radius values
+$radius-small: 8px;
+$radius-medium: 14px;
+$radius-large: 24px;
+$radius-rounded: 999px;
+
+// Common transition
+$transition-default: all 0.25s ease;
+
+// Responsive breakpoints
+$breakpoint-tablet: 960px;
+$breakpoint-mobile: 600px;
