@@ -1,9 +1,153 @@
 // Import the FORWARD FIT design variables
-@use '../variables' as *;
+@use "../variables" as *;
 
-// Authentication pages use the complete browser height
 .auth-layout {
   min-height: 100vh;
+  padding: 0 !important;
+
   color: $text-primary;
   background-color: $background-primary;
+}
+
+.auth-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+// --------------------------------------------------
+// Right-side authentication content
+// --------------------------------------------------
+
+.auth-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  width: 54%;
+  min-width: 0;
+  min-height: 100vh;
+
+  background-color: $background-primary;
+}
+
+.auth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  min-height: 88px;
+  padding: 22px 48px;
+}
+
+.back-home-link {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+
+  padding: 9px 12px;
+
+  color: $text-secondary;
+  font-size: 0.83rem;
+  font-weight: 600;
+  border-radius: $radius-small;
+
+  transition: $transition-default;
+}
+
+.back-home-link:hover {
+  color: $color-primary;
+  background-color: $background-soft-red;
+}
+
+.mobile-auth-brand {
+  display: none;
+}
+
+.auth-route-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+
+  width: 100%;
+  padding: 28px 48px 50px;
+}
+
+.auth-footer {
+  padding: 20px 48px 26px;
+
+  color: $text-muted;
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+// --------------------------------------------------
+// Tablet and mobile layout
+// --------------------------------------------------
+
+@media (max-width: $breakpoint-tablet) {
+  .auth-content {
+    width: 100%;
+  }
+
+  .auth-topbar {
+    justify-content: space-between;
+    padding-inline: 32px;
+  }
+
+  .mobile-auth-brand {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+
+    color: $text-primary;
+    font-size: 0.98rem;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+  }
+
+  .mobile-auth-brand strong {
+    color: $color-primary;
+  }
+
+  .mobile-brand-symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    color: $text-on-primary;
+    background-color: $color-primary;
+    border-radius: 10px;
+  }
+
+  .auth-route-content {
+    padding-inline: 32px;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .auth-topbar {
+    min-height: 74px;
+    padding: 16px 20px;
+  }
+
+  .back-home-link {
+    font-size: 0;
+  }
+
+  .back-home-link .v-icon {
+    font-size: 21px;
+  }
+
+  .auth-route-content {
+    align-items: flex-start;
+    padding: 28px 20px 40px;
+  }
+
+  .auth-footer {
+    padding: 18px 20px 22px;
+  }
 }

@@ -1,0 +1,25 @@
+// Import FORWARD FIT design variables
+@use '../variables' as *;
+
+.registration-page {
+  width: 100%;
+}
+
+.registration-form-container {
+  width: min(100%, 680px);
+  margin-inline: auto;
+  padding-block: 18px;
+}
+
+// Allow comfortable spacing on tablet and mobile
+@media (max-width: $breakpoint-tablet) {
+  .registration-form-container {
+    max-width: 680px;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .registration-form-container {
+    padding-block: 0;
+  }
+}

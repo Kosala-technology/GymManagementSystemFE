@@ -1,0 +1,259 @@
+// Import FORWARD FIT design variables
+@use '../variables' as *;
+
+.registration-card {
+  width: 100%;
+  padding: 34px;
+
+  background-color: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: 24px !important;
+
+  box-shadow:
+    0 4px 12px rgba(21, 24, 29, 0.04),
+    0 20px 50px rgba(21, 24, 29, 0.09) !important;
+}
+
+// --------------------------------------------------
+// Registration heading
+// --------------------------------------------------
+
+.registration-heading {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+
+  margin-bottom: 26px;
+}
+
+.registration-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 50px;
+  height: 50px;
+
+  color: $color-primary;
+  background-color: $background-soft-red;
+  border: 1px solid rgba($color-primary, 0.12);
+  border-radius: 15px;
+}
+
+.registration-heading h1 {
+  margin-bottom: 7px;
+
+  color: $text-primary;
+  font-size: clamp(1.75rem, 2.5vw, 2.15rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -1.3px;
+}
+
+.registration-heading p {
+  max-width: 520px;
+
+  color: $text-secondary;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+// --------------------------------------------------
+// Registration form fields
+// --------------------------------------------------
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+
+  color: $text-primary;
+  font-size: 0.77rem;
+  font-weight: 700;
+}
+
+.auth-field {
+  font-size: 0.84rem;
+}
+
+.auth-field:deep(.v-field) {
+  min-height: 50px;
+
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(21, 24, 29, 0.025);
+
+  transition: box-shadow 0.2s ease;
+}
+
+.auth-field:deep(.v-field--focused) {
+  box-shadow: 0 0 0 4px rgba($color-primary, 0.1);
+}
+
+.auth-field:deep(.v-field__outline) {
+  color: $border-color-dark;
+}
+
+.auth-field:deep(.v-field--error .v-field__outline) {
+  color: $error-color;
+}
+
+// Reduce the default Vuetify row spacing slightly
+.registration-card:deep(.v-row) {
+  margin: -7px;
+}
+
+.registration-card:deep(.v-col) {
+  padding: 7px;
+}
+
+// --------------------------------------------------
+// Password and terms information
+// --------------------------------------------------
+
+.password-information {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+
+  margin-top: 10px;
+  padding: 10px 12px;
+
+  color: $text-secondary;
+  background-color: $background-secondary;
+  border-radius: 10px;
+
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.password-information .v-icon {
+  flex-shrink: 0;
+  color: $color-primary;
+}
+
+.terms-checkbox {
+  margin-top: 12px;
+}
+
+.terms-checkbox:deep(.v-label) {
+  color: $text-secondary;
+  font-size: 0.73rem;
+  line-height: 1.5;
+  opacity: 1;
+}
+
+.terms-checkbox a {
+  color: $color-primary;
+  font-weight: 700;
+}
+
+.terms-checkbox a:hover {
+  color: $color-primary-hover;
+  text-decoration: underline;
+}
+
+// --------------------------------------------------
+// Submit button
+// --------------------------------------------------
+
+.registration-submit-button {
+  min-height: 52px;
+  margin-top: 12px;
+
+  font-size: 0.87rem;
+  font-weight: 700;
+  border-radius: 13px !important;
+
+  box-shadow:
+    0 4px 10px rgba($color-primary, 0.18),
+    0 14px 28px rgba($color-primary, 0.2) !important;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.registration-submit-button:hover {
+  box-shadow:
+    0 6px 12px rgba($color-primary, 0.2),
+    0 18px 34px rgba($color-primary, 0.26) !important;
+
+  transform: translateY(-2px);
+}
+
+.registration-submit-button:active {
+  transform: translateY(0);
+}
+
+// --------------------------------------------------
+// Login and Member ID messages
+// --------------------------------------------------
+
+.login-message {
+  margin-top: 22px;
+
+  color: $text-secondary;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.login-message a {
+  margin-left: 4px;
+
+  color: $color-primary;
+  font-weight: 700;
+}
+
+.login-message a:hover {
+  color: $color-primary-hover;
+  text-decoration: underline;
+}
+
+.member-id-message {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 18px;
+  padding-top: 17px;
+
+  color: $text-muted;
+  font-size: 0.68rem;
+  text-align: center;
+  border-top: 1px solid $border-color;
+}
+
+.member-id-message .v-icon {
+  flex-shrink: 0;
+  color: $success-color;
+}
+
+// --------------------------------------------------
+// Mobile layout
+// --------------------------------------------------
+
+@media (max-width: $breakpoint-mobile) {
+  .registration-card {
+    padding: 25px 20px;
+    border-radius: 18px !important;
+  }
+
+  .registration-heading {
+    gap: 12px;
+  }
+
+  .registration-heading h1 {
+    font-size: 1.65rem;
+  }
+
+  .registration-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .member-id-message {
+    align-items: flex-start;
+    text-align: left;
+  }
+}

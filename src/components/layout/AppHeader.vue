@@ -2,16 +2,20 @@
   <!-- Fixed website header -->
   <header class="app-header">
     <div class="page-container header-content">
-      <!-- PULSEFIT brand identity -->
-      <a href="#home" class="brand" aria-label="Go to PULSEFIT home">
+      <!-- FORWARD FIT brand identity -->
+      <router-link
+        :to="{ name: 'home' }"
+        class="brand"
+        aria-label="Go to FORWARD FIT home"
+      >
         <!-- Logo symbol -->
         <span class="brand-symbol">
           <v-icon icon="mdi-dumbbell" size="26" />
         </span>
 
         <!-- Gym name -->
-        <span class="brand-name"> PULSE<span>FIT</span> </span>
-      </a>
+        <span class="brand-name"> FORWARD <span>FIT</span> </span>
+      </router-link>
 
       <!-- Navigation displayed on desktop -->
       <nav class="desktop-navigation" aria-label="Main navigation">
@@ -26,10 +30,11 @@
         </a>
       </nav>
 
-      <!-- Desktop actions -->
+      <!-- Desktop action buttons -->
       <div class="desktop-actions">
-        <!-- Login is currently a visual button only -->
+        <!-- Navigate to the Login page -->
         <v-btn
+          :to="{ name: 'login' }"
           variant="text"
           color="secondary"
           prepend-icon="mdi-account-outline"
@@ -38,8 +43,13 @@
           Login
         </v-btn>
 
-        <!-- Registration will be connected later -->
-        <v-btn color="primary" size="large" class="register-button">
+        <!-- Navigate to the Registration page -->
+        <v-btn
+          :to="{ name: 'register' }"
+          color="primary"
+          size="large"
+          class="register-button"
+        >
           Join Now
 
           <v-icon icon="mdi-arrow-right" end size="19" />
@@ -66,30 +76,31 @@
     width="310"
     color="white"
   >
-    <!-- Drawer heading -->
+    <!-- Mobile drawer header -->
     <div class="drawer-header">
-      <a
-        href="#home"
+      <!-- Mobile brand identity -->
+      <router-link
+        :to="{ name: 'home' }"
         class="brand"
-        aria-label="Go to PULSEFIT home"
-        @click="mobileMenuOpen = false"
+        aria-label="Go to FORWARD FIT home"
+        @click="closeMobileMenu"
       >
         <span class="brand-symbol drawer-brand-symbol">
           <v-icon icon="mdi-dumbbell" size="23" />
         </span>
 
         <span class="brand-name drawer-brand-name">
-          PULSE<span>FIT</span>
+          FORWARD <span>FIT</span>
         </span>
-      </a>
+      </router-link>
 
-      <!-- Close drawer button -->
+      <!-- Close mobile drawer button -->
       <v-btn
         icon="mdi-close"
         variant="text"
         color="secondary"
         aria-label="Close navigation menu"
-        @click="mobileMenuOpen = false"
+        @click="closeMobileMenu"
       />
     </div>
 
@@ -103,7 +114,7 @@
         :href="item.link"
         class="mobile-navigation-link"
         :class="{ active: item.name === 'Home' }"
-        @click="mobileMenuOpen = false"
+        @click="closeMobileMenu"
       >
         <v-icon :icon="item.icon" size="21" />
 
@@ -113,18 +124,27 @@
 
     <!-- Mobile action buttons -->
     <div class="mobile-actions">
+      <!-- Navigate to the Login page -->
       <v-btn
+        :to="{ name: 'login' }"
         variant="outlined"
         color="secondary"
         size="large"
         block
         prepend-icon="mdi-account-outline"
-        @click="mobileMenuOpen = false"
+        @click="closeMobileMenu"
       >
         Login
       </v-btn>
 
-      <v-btn color="primary" size="large" block @click="mobileMenuOpen = false">
+      <!-- Navigate to the Registration page -->
+      <v-btn
+        :to="{ name: 'register' }"
+        color="primary"
+        size="large"
+        block
+        @click="closeMobileMenu"
+      >
         Join Now
 
         <v-icon icon="mdi-arrow-right" end size="19" />
@@ -137,10 +157,15 @@
 // Import Vue's reactive reference function
 import { ref } from "vue";
 
-// Track whether the mobile menu is open
+// Control whether the mobile navigation drawer is open
 const mobileMenuOpen = ref(false);
 
-// Store navigation details in one reusable array
+// Close the mobile navigation drawer
+const closeMobileMenu = () => {
+  mobileMenuOpen.value = false;
+};
+
+// Navigation links used by desktop and mobile menus
 const navigationItems = [
   {
     name: "Home",
@@ -165,6 +190,7 @@ const navigationItems = [
 ];
 </script>
 
+<!-- Load component styles from the external SCSS file -->
 <style
   lang="scss"
   scoped

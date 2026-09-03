@@ -1,22 +1,20 @@
 <template>
   <!-- Root Vuetify application -->
   <v-app>
-    <!-- Shared website header -->
-    <AppHeader />
+    <!--
+      Vue Router displays the correct layout and page here.
 
-    <!-- Main page content -->
-    <v-main>
-      <HomeView />
-    </v-main>
+      Home route:
+      DefaultLayout → HomeView
+
+      Authentication routes:
+      AuthLayout → LoginView or RegistrationView
+    -->
+    <router-view />
   </v-app>
 </template>
 
 <script setup>
-// Import the shared header component
-import AppHeader from "./components/layout/AppHeader.vue";
-
-// Import the home page
-import HomeView from "./views/HomeView.vue";
+// No imports are required here.
+// Vue Router controls the layouts and pages.
 </script>
-
-

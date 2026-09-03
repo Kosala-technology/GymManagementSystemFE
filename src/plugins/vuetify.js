@@ -21,12 +21,12 @@ const vuetify = createVuetify({
     },
   },
 
-  // Configure the PULSEFIT light theme
+  // Configure the FORWARD FIT light theme
   theme: {
-    defaultTheme: 'pulseFitLight',
+    defaultTheme: 'forwardFitLight',
 
     themes: {
-      pulseFitLight: {
+      forwardFitLight: {
         // Use a light colour scheme
         dark: false,
 

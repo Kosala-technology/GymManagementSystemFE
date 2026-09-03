@@ -1,0 +1,38 @@
+// Import FORWARD FIT design variables
+@use '../variables' as *;
+
+.login-page {
+  width: 100%;
+}
+
+.login-form-container {
+  width: min(100%, 490px);
+  margin-inline: auto;
+
+  // Keep the default position on smaller devices
+  transform: translateY(0);
+
+  transition: transform 0.3s ease;
+}
+
+// Move only the Login form upward on desktop screens
+@media (min-width: 961px) {
+  .login-form-container {
+    transform: translateY(-25px);
+  }
+}
+
+// Use a smaller movement on short laptop screens
+@media (max-height: 760px) and (min-width: 961px) {
+  .login-form-container {
+    padding-block: 20px;
+    transform: translateY(-18px);
+  }
+}
+
+// Keep the natural position on tablet and mobile screens
+@media (max-width: $breakpoint-tablet) {
+  .login-form-container {
+    transform: none;
+  }
+}

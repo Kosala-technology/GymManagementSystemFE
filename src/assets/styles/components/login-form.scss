@@ -1,0 +1,237 @@
+// Import FORWARD FIT design variables
+@use '../variables' as *;
+
+.login-card {
+  width: 100%;
+  padding: 40px;
+
+  background-color: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: 24px !important;
+
+  box-shadow:
+    0 4px 12px rgba(21, 24, 29, 0.04),
+    0 20px 50px rgba(21, 24, 29, 0.09) !important;
+}
+
+// --------------------------------------------------
+// Login heading
+// --------------------------------------------------
+
+.login-heading {
+  margin-bottom: 30px;
+}
+
+.login-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 50px;
+  height: 50px;
+  margin-bottom: 20px;
+
+  color: $color-primary;
+  background-color: $background-soft-red;
+  border: 1px solid rgba($color-primary, 0.12);
+  border-radius: 15px;
+}
+
+.login-heading h1 {
+  margin-bottom: 10px;
+
+  color: $text-primary;
+  font-size: clamp(1.9rem, 3vw, 2.35rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+}
+
+.login-heading p {
+  max-width: 430px;
+
+  color: $text-secondary;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+// --------------------------------------------------
+// Form fields
+// --------------------------------------------------
+
+.form-group {
+  margin-bottom: 21px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+
+  color: $text-primary;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.auth-field {
+  font-size: 0.88rem;
+}
+
+.auth-field:deep(.v-field) {
+  min-height: 52px;
+
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(21, 24, 29, 0.025);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.auth-field:deep(.v-field--focused) {
+  box-shadow: 0 0 0 4px rgba($color-primary, 0.1);
+}
+
+.auth-field:deep(.v-field__outline) {
+  color: $border-color-dark;
+}
+
+.auth-field:deep(.v-field--error .v-field__outline) {
+  color: $error-color;
+}
+
+// --------------------------------------------------
+// Additional form options
+// --------------------------------------------------
+
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 4px;
+  margin-bottom: 22px;
+}
+
+.remember-checkbox {
+  flex: initial;
+}
+
+.remember-checkbox:deep(.v-label) {
+  color: $text-secondary;
+  font-size: 0.8rem;
+  opacity: 1;
+}
+
+.forgot-password-button {
+  min-width: auto;
+  padding-inline: 8px;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+// --------------------------------------------------
+// Submit button
+// --------------------------------------------------
+
+.login-submit-button {
+  min-height: 52px;
+
+  font-size: 0.88rem;
+  font-weight: 700;
+  border-radius: 13px !important;
+
+  box-shadow:
+    0 4px 10px rgba($color-primary, 0.18),
+    0 14px 28px rgba($color-primary, 0.2) !important;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.login-submit-button:hover {
+  box-shadow:
+    0 6px 12px rgba($color-primary, 0.2),
+    0 18px 34px rgba($color-primary, 0.26) !important;
+
+  transform: translateY(-2px);
+}
+
+.login-submit-button:active {
+  transform: translateY(0);
+}
+
+// --------------------------------------------------
+// Registration and security messages
+// --------------------------------------------------
+
+.registration-message {
+  margin-top: 26px;
+
+  color: $text-secondary;
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.registration-message a {
+  margin-left: 4px;
+
+  color: $color-primary;
+  font-weight: 700;
+}
+
+.registration-message a:hover {
+  color: $color-primary-hover;
+  text-decoration: underline;
+}
+
+.security-message {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 24px;
+  padding-top: 20px;
+
+  color: $text-muted;
+  font-size: 0.71rem;
+  border-top: 1px solid $border-color;
+}
+
+.security-message .v-icon {
+  color: $success-color;
+}
+
+// --------------------------------------------------
+// Mobile layout
+// --------------------------------------------------
+
+@media (max-width: $breakpoint-mobile) {
+  .login-card {
+    padding: 26px 22px;
+    border-radius: 18px !important;
+  }
+
+  .login-heading {
+    margin-bottom: 25px;
+  }
+
+  .login-heading h1 {
+    font-size: 1.85rem;
+  }
+
+  .form-options {
+    align-items: flex-start;
+  }
+
+  .forgot-password-button {
+    margin-top: 1px;
+  }
+
+  .security-message {
+    align-items: flex-start;
+    text-align: left;
+  }
+}

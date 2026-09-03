@@ -35,10 +35,11 @@
         <div class="hero-actions">
           <!-- Main call-to-action button -->
           <v-btn
+            :to="{ name: 'register' }"
             color="primary"
             size="x-large"
             class="primary-action"
-            aria-label="Get started with PULSEFIT"
+            aria-label="Get started with FORWARD FIT"
           >
             <span>Get Started</span>
 

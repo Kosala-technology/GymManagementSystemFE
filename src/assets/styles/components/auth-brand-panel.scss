@@ -1,0 +1,232 @@
+// Import the FORWARD FIT design variables
+@use '../variables' as *;
+
+.auth-brand-panel {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 46%;
+  min-height: 100vh;
+  padding: 42px 52px 28px;
+
+  color: $text-on-primary;
+  background:
+    linear-gradient(
+      145deg,
+      #181b20 0%,
+      #101216 65%,
+      #211312 100%
+    );
+}
+
+// --------------------------------------------------
+// Brand logo
+// --------------------------------------------------
+
+.auth-brand {
+  position: relative;
+  z-index: 4;
+
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  align-self: flex-start;
+}
+
+.auth-brand-symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  color: $text-on-primary;
+  background-color: $color-primary;
+  border-radius: 12px;
+  box-shadow: 0 10px 26px rgba($color-primary, 0.28);
+
+  transform: rotate(-4deg);
+  transition: $transition-default;
+}
+
+.auth-brand:hover .auth-brand-symbol {
+  transform: rotate(0deg) scale(1.04);
+}
+
+.auth-brand-name {
+  color: $text-on-primary;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.auth-brand-name strong {
+  color: $color-primary-light;
+}
+
+// --------------------------------------------------
+// Main branding message
+// --------------------------------------------------
+
+.brand-message {
+  position: relative;
+  z-index: 3;
+
+  max-width: 500px;
+  margin-top: 70px;
+}
+
+.brand-badge {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+
+  margin-bottom: 22px;
+  padding: 8px 13px;
+
+  color: #ffb4ad;
+  background-color: rgba($color-primary, 0.13);
+  border: 1px solid rgba($color-primary-light, 0.22);
+  border-radius: $radius-rounded;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.brand-message h2 {
+  margin-bottom: 22px;
+
+  color: $text-on-primary;
+  font-size: clamp(2.7rem, 4vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -3px;
+}
+
+.brand-message h2 span {
+  color: $color-primary-light;
+}
+
+.brand-message p {
+  max-width: 470px;
+
+  color: rgba($text-on-primary, 0.68);
+  font-size: 0.96rem;
+  line-height: 1.75;
+}
+
+// --------------------------------------------------
+// Benefit list
+// --------------------------------------------------
+
+.brand-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+
+  margin-top: 28px;
+  padding: 0;
+
+  list-style: none;
+}
+
+.brand-benefits li {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+
+  color: rgba($text-on-primary, 0.86);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.brand-benefits li span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 27px;
+  height: 27px;
+
+  color: $text-on-primary;
+  background-color: $color-primary;
+  border-radius: 50%;
+}
+
+// --------------------------------------------------
+// Athlete image
+// --------------------------------------------------
+
+.auth-athlete-image {
+  position: absolute;
+  right: -65px;
+  bottom: 0;
+  z-index: 2;
+
+  width: min(53%, 430px);
+  max-height: 58%;
+
+  object-fit: contain;
+  object-position: bottom right;
+
+  opacity: 0.5;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.35));
+}
+
+// --------------------------------------------------
+// Decorative elements
+// --------------------------------------------------
+
+.brand-decoration {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.decoration-one {
+  top: -170px;
+  right: -150px;
+
+  width: 420px;
+  height: 420px;
+
+  background-color: rgba($color-primary, 0.13);
+  filter: blur(3px);
+}
+
+.decoration-two {
+  bottom: -240px;
+  left: -180px;
+
+  width: 500px;
+  height: 500px;
+
+  border: 80px solid rgba($color-primary, 0.055);
+}
+
+.brand-footer {
+  position: relative;
+  z-index: 4;
+
+  margin-top: auto;
+
+  color: rgba($text-on-primary, 0.45);
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+// Hide the large branding panel on tablets and mobile devices
+@media (max-width: $breakpoint-tablet) {
+  .auth-brand-panel {
+    display: none;
+  }
+}
