@@ -1,0 +1,9 @@
+// Import the FORWARD FIT design variables
+@use '../variables' as *;
+
+// Authentication pages use the complete browser height
+.auth-layout {
+  min-height: 100vh;
+  color: $text-primary;
+  background-color: $background-primary;
+}

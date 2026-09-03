@@ -18,3 +18,5 @@ import AppHeader from "./components/layout/AppHeader.vue";
 // Import the home page
 import HomeView from "./views/HomeView.vue";
 </script>
+
+
