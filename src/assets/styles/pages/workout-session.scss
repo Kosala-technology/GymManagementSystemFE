@@ -1,0 +1,291 @@
+@use "../variables" as *;
+
+.workout-session-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 90% 13%,
+      rgba($color-primary, 0.05),
+      transparent 22%
+    ),
+    $background-secondary;
+
+  &__main {
+    padding: 32px 0 55px;
+  }
+
+  &__container {
+    width: min(100% - 48px, $container-max-width);
+    margin: 0 auto;
+  }
+
+  &__header {
+    margin-bottom: 25px;
+    padding: 22px 27px 25px;
+    background: $surface-color;
+    border: 1px solid $border-color;
+    border-radius: $radius-large;
+    box-shadow: $shadow-small;
+  }
+
+  &__navigation {
+    margin-bottom: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &__back-button {
+    margin-left: -12px;
+    color: $text-secondary;
+
+    &:hover {
+      color: $color-primary;
+      background: $background-soft-red;
+    }
+  }
+
+  &__heading-content {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+
+    h1 {
+      margin: 5px 0 8px;
+      color: $text-primary;
+      font-size: clamp(1.65rem, 4vw, 2.25rem);
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+    }
+
+    p {
+      max-width: 590px;
+      margin: 0;
+      color: $text-secondary;
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+  }
+
+  &__eyebrow {
+    color: $color-primary;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  &__session-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    gap: 9px;
+
+    > div {
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: $background-secondary;
+      border: 1px solid $border-color;
+      border-radius: 10px;
+    }
+
+    .v-icon {
+      color: $color-primary;
+    }
+
+    span {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    small {
+      color: $text-muted;
+      font-size: 0.58rem;
+    }
+
+    strong {
+      max-width: 150px;
+      overflow: hidden;
+      color: $text-primary;
+      font-size: 0.68rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__progress {
+    margin-top: 21px;
+
+    > div {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      span {
+        color: $text-secondary;
+        font-size: 0.7rem;
+      }
+
+      strong {
+        color: $color-primary;
+        font-size: 0.78rem;
+      }
+    }
+  }
+
+  &__workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    align-items: start;
+    gap: 22px;
+  }
+
+  &__completion-card {
+    margin-top: 23px;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background:
+      linear-gradient(120deg, rgba($success-color, 0.09), transparent),
+      $surface-color;
+    border: 1px solid rgba($success-color, 0.24);
+    box-shadow: $shadow-small;
+
+    > span {
+      width: 54px;
+      height: 54px;
+      flex: 0 0 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: $success-color;
+      background: rgba($success-color, 0.11);
+      border-radius: 15px;
+    }
+
+    > div {
+      flex: 1;
+    }
+
+    small {
+      color: $success-color;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 3px 0 5px;
+      color: $text-primary;
+      font-size: 1.15rem;
+    }
+
+    p {
+      margin: 0;
+      color: $text-secondary;
+      font-size: 0.75rem;
+    }
+  }
+
+  &__not-found {
+    padding: 60px 24px;
+    text-align: center;
+    border: 1px solid $border-color;
+    box-shadow: $shadow-small;
+
+    > span {
+      color: $color-primary;
+    }
+
+    h1 {
+      margin: 15px 0 7px;
+      color: $text-primary;
+      font-size: 1.4rem;
+    }
+
+    p {
+      margin: 0 0 20px;
+      color: $text-secondary;
+      font-size: 0.8rem;
+    }
+  }
+
+  &__feedback {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .workout-session-page {
+    &__heading-content {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    &__workspace {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .workout-session-page {
+    &__container {
+      width: min(100% - 32px, $container-max-width);
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .workout-session-page {
+    &__main {
+      padding: 23px 0 40px;
+    }
+
+    &__container {
+      width: calc(100% - 24px);
+    }
+
+    &__header {
+      padding: 18px 17px 20px;
+      border-radius: $radius-medium;
+    }
+
+    &__navigation {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    &__heading-content {
+      gap: 20px;
+    }
+
+    &__session-details {
+      width: 100%;
+      grid-template-columns: 1fr;
+    }
+
+    &__session-details strong {
+      max-width: none;
+    }
+
+    &__completion-card {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    &__completion-card .v-btn {
+      width: 100%;
+    }
+  }
+}

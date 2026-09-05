@@ -1,6 +1,5 @@
 <template>
   <div class="workout-schedule-page">
-    <!-- Existing Forward Fit dashboard header -->
     <DashboardHeader
       :customer-name="customer.name"
       :member-id="customer.id"
@@ -10,24 +9,24 @@
 
     <main class="workout-schedule-page__main">
       <div class="workout-schedule-page__container">
-        <!-- Program and weekly progress header -->
+        <!-- Weekly schedule heading -->
         <WorkoutScheduleHeader
           :customer-name="customer.name"
           :member-id="customer.id"
           :program-name="customer.programName"
           :assigned-trainer="customer.assignedTrainer"
           :program-week="customer.programWeek"
-          :total-workouts="workoutCounts.all"
-          :completed-workouts="workoutCounts.completed"
-          :pending-workouts="workoutCounts.pending"
+          :total-workouts="scheduleCounts.all"
+          :completed-workouts="scheduleCounts.completed"
+          :pending-workouts="scheduleCounts.pending"
           @back="goToDashboard"
         />
 
-        <!-- Workout filter buttons -->
+        <!-- Schedule filters -->
         <WorkoutFilterTabs
           v-model="selectedFilter"
           :filters="workoutFilterOptions"
-          :counts="workoutCounts"
+          :counts="scheduleCounts"
           class="workout-schedule-page__filters"
         />
 
@@ -37,43 +36,53 @@
             <span>{{ activeFilterLabel }}</span>
 
             <h2>
-              {{ filteredWorkouts.length }}
-              {{ filteredWorkouts.length === 1 ? "Workout" : "Workouts" }}
+              {{ filteredSchedules.length }}
+              {{
+                filteredSchedules.length === 1
+                  ? "Daily Schedule"
+                  : "Daily Schedules"
+              }}
             </h2>
           </div>
 
-          <p>Status changes are saved automatically in this browser.</p>
+          <p>
+            Open an assigned schedule and complete each exercise in the given
+            order.
+          </p>
         </div>
 
-        <!-- Workout cards -->
+        <!-- Daily workout schedule cards -->
         <v-row
-          v-if="filteredWorkouts.length"
+          v-if="filteredSchedules.length"
           class="workout-schedule-page__grid"
         >
           <v-col
-            v-for="workout in filteredWorkouts"
-            :key="workout.id"
+            v-for="schedule in filteredSchedules"
+            :key="schedule.id"
             cols="12"
-            lg="6"
+            md="6"
+            lg="4"
           >
-            <WorkoutCard
-              :workout="workout"
-              :is-today="isTodayWorkout(workout)"
-              @watch-video="openExerciseVideo"
-              @complete="markWorkoutAsCompleted"
+            <DailyScheduleCard
+              :schedule="schedule"
+              :is-today="isTodaySchedule(schedule)"
+              @open-schedule="openWorkoutSession"
             />
           </v-col>
         </v-row>
 
-        <!-- Empty filter result -->
+        <!-- Empty result -->
         <v-card v-else class="workout-schedule-page__empty-state">
           <span class="workout-schedule-page__empty-icon">
             <v-icon icon="mdi-calendar-blank-outline" size="40" />
           </span>
 
-          <h3>No workouts found</h3>
+          <h3>No daily schedules found</h3>
 
-          <p>There are no workout records available for the selected filter.</p>
+          <p>
+            There are no assigned workout schedules available for the selected
+            filter.
+          </p>
 
           <v-btn
             color="primary"
@@ -81,14 +90,11 @@
             prepend-icon="mdi-view-grid-outline"
             @click="selectedFilter = 'all'"
           >
-            View All Workouts
+            View All Schedules
           </v-btn>
         </v-card>
       </div>
     </main>
-
-    <!-- Selected exercise video -->
-    <ExerciseVideoDialog v-model="showVideoDialog" :workout="selectedWorkout" />
 
     <!-- Page feedback -->
     <v-snackbar
@@ -100,6 +106,7 @@
     >
       <div class="workout-schedule-page__feedback">
         <v-icon :icon="feedback.icon" size="20" />
+
         <span>{{ feedback.message }}</span>
       </div>
 
@@ -120,93 +127,123 @@ import { useRouter } from "vue-router";
 import DashboardHeader from "../../components/dashboard/DashboardHeader.vue";
 import WorkoutScheduleHeader from "../../components/workout/WorkoutScheduleHeader.vue";
 import WorkoutFilterTabs from "../../components/workout/WorkoutFilterTabs.vue";
-import WorkoutCard from "../../components/workout/WorkoutCard.vue";
-import ExerciseVideoDialog from "../../components/workout/ExerciseVideoDialog.vue";
+import DailyScheduleCard from "../../components/workout/DailyScheduleCard.vue";
 
 import {
+  sampleDailySchedules,
   sampleWorkoutCustomer,
-  sampleWorkouts,
   workoutFilterOptions,
 } from "../../data/sampleWorkouts.js";
 
-// Access Vue Router
 const router = useRouter();
 
-// Local Storage key used for workout completion statuses
-const workoutStatusStorageKey = "forwardFitWorkoutStatuses";
-
-// Sample customer data
-// This is not loaded from a backend API
 const customer = sampleWorkoutCustomer;
 
-// Create a new editable copy of the sample workout array
-const workouts = ref(
-  sampleWorkouts.map((workout) => ({
-    ...workout,
+const exerciseStatusStorageKey = "forwardFitExerciseStatuses";
+
+// Create an editable copy of schedules and nested exercises
+const schedules = ref(
+  sampleDailySchedules.map((schedule) => ({
+    ...schedule,
+
+    exercises: schedule.exercises.map((exercise) => ({
+      ...exercise,
+    })),
   })),
 );
 
-// Currently selected filter
 const selectedFilter = ref("all");
 
-// Selected workout video
-const selectedWorkout = ref(null);
-const showVideoDialog = ref(false);
-
-// Snackbar feedback state
 const feedback = ref({
   visible: false,
   message: "",
-  color: "success",
-  icon: "mdi-check-circle-outline",
+  color: "info",
+  icon: "mdi-information-outline",
 });
 
-// Return today's English weekday name
-const currentWorkoutDay = computed(() => {
-  return new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
-  }).format(new Date());
-});
+// Return the customer's current local date as YYYY-MM-DD.
+// Avoid converting to UTC because it can change the calendar date.
+const getLocalDateKey = () => {
+  const today = new Date();
 
-// Check whether a workout belongs to today
-const isTodayWorkout = (workout) => {
-  return workout.workoutDay === currentWorkoutDay.value;
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 };
 
-// Calculate values displayed on filter buttons and progress section
-const workoutCounts = computed(() => {
+// Match the full assigned date, not only the weekday.
+const isTodaySchedule = (schedule) => {
+  return schedule.scheduledDate === getLocalDateKey();
+};
+
+// Return the number of completed exercises
+const getCompletedExerciseCount = (schedule) => {
+  return schedule.exercises.filter(
+    (exercise) => exercise.status === "Completed",
+  ).length;
+};
+
+// Calculate daily schedule status from exercise statuses
+const getScheduleStatus = (schedule) => {
+  const totalExercises = schedule.exercises.length;
+  const completedExercises = getCompletedExerciseCount(schedule);
+
+  if (totalExercises > 0 && completedExercises === totalExercises) {
+    return "Completed";
+  }
+
+  if (completedExercises > 0) {
+    return "In Progress";
+  }
+
+  return "Pending";
+};
+
+// Calculate filter counts
+const scheduleCounts = computed(() => {
+  const completedSchedules = schedules.value.filter(
+    (schedule) => getScheduleStatus(schedule) === "Completed",
+  ).length;
+
+  const todaySchedules = schedules.value.filter((schedule) =>
+    isTodaySchedule(schedule),
+  ).length;
+
   return {
-    all: workouts.value.length,
+    all: schedules.value.length,
+    today: todaySchedules,
+    completed: completedSchedules,
 
-    today: workouts.value.filter((workout) => isTodayWorkout(workout)).length,
-
-    completed: workouts.value.filter(
-      (workout) => workout.status === "Completed",
-    ).length,
-
-    pending: workouts.value.filter((workout) => workout.status === "Pending")
-      .length,
+    // In Progress schedules are included because
+    // they still contain pending exercises.
+    pending: schedules.value.length - completedSchedules,
   };
 });
 
-// Filter workouts using the selected filter
-const filteredWorkouts = computed(() => {
+// Filter daily schedule cards
+const filteredSchedules = computed(() => {
   switch (selectedFilter.value) {
     case "today":
-      return workouts.value.filter((workout) => isTodayWorkout(workout));
+      return schedules.value.filter((schedule) => isTodaySchedule(schedule));
 
     case "completed":
-      return workouts.value.filter((workout) => workout.status === "Completed");
+      return schedules.value.filter(
+        (schedule) => getScheduleStatus(schedule) === "Completed",
+      );
 
     case "pending":
-      return workouts.value.filter((workout) => workout.status === "Pending");
+      return schedules.value.filter(
+        (schedule) => getScheduleStatus(schedule) !== "Completed",
+      );
 
     default:
-      return workouts.value;
+      return schedules.value;
   }
 });
 
-// Display the selected filter heading
+// Filter heading
 const activeFilterLabel = computed(() => {
   const activeFilter = workoutFilterOptions.find(
     (filter) => filter.value === selectedFilter.value,
@@ -215,121 +252,72 @@ const activeFilterLabel = computed(() => {
   return activeFilter?.label || "All Workouts";
 });
 
-// Display page feedback
-const displayFeedback = (
-  message,
-  color = "success",
-  icon = "mdi-check-circle-outline",
-) => {
-  feedback.value = {
-    visible: true,
-    message,
-    color,
-    icon,
-  };
-};
+// Restore exercise statuses saved from Workout Session
+const loadExerciseStatuses = () => {
+  const savedData = localStorage.getItem(exerciseStatusStorageKey);
 
-// Save only workout IDs and statuses in Local Storage
-const saveWorkoutStatuses = () => {
-  const workoutStatuses = workouts.value.map((workout) => ({
-    id: workout.id,
-    status: workout.status,
-  }));
-
-  localStorage.setItem(
-    workoutStatusStorageKey,
-    JSON.stringify(workoutStatuses),
-  );
-};
-
-// Restore saved workout statuses after page refresh
-const loadWorkoutStatuses = () => {
-  const savedStatuses = localStorage.getItem(workoutStatusStorageKey);
-
-  if (!savedStatuses) {
+  if (!savedData) {
     return;
   }
 
   try {
-    const parsedStatuses = JSON.parse(savedStatuses);
+    const parsedStatuses = JSON.parse(savedData);
 
-    // Ignore invalid Local Storage values
     if (!Array.isArray(parsedStatuses)) {
       return;
     }
 
-    workouts.value = workouts.value.map((workout) => {
-      const savedWorkout = parsedStatuses.find(
-        (item) => item.id === workout.id,
-      );
+    schedules.value = schedules.value.map((schedule) => ({
+      ...schedule,
 
-      // Only allow the two supported status values
-      const savedStatusIsValid = ["Completed", "Pending"].includes(
-        savedWorkout?.status,
-      );
+      exercises: schedule.exercises.map((exercise) => {
+        const savedExercise = parsedStatuses.find(
+          (item) => item.assignmentId === exercise.assignmentId,
+        );
 
-      return {
-        ...workout,
-        status: savedStatusIsValid ? savedWorkout.status : workout.status,
-      };
-    });
+        const validStatus = ["Completed", "Pending"].includes(
+          savedExercise?.status,
+        );
+
+        return {
+          ...exercise,
+
+          status: validStatus ? savedExercise.status : exercise.status,
+        };
+      }),
+    }));
   } catch (error) {
-    // Remove corrupted workout data from Local Storage
-    localStorage.removeItem(workoutStatusStorageKey);
+    localStorage.removeItem(exerciseStatusStorageKey);
 
-    console.error("Unable to read saved workout statuses:", error);
+    console.error("Unable to read saved exercise statuses:", error);
   }
 };
 
-// Change a Pending workout to Completed
-const markWorkoutAsCompleted = (workoutId) => {
-  const selectedRecord = workouts.value.find(
-    (workout) => workout.id === workoutId,
-  );
+// Open the selected daily session
+const openWorkoutSession = (scheduleId) => {
+  router.push({
+    name: "workout-session",
 
-  if (!selectedRecord) {
-    displayFeedback(
-      "The selected workout could not be found.",
-      "error",
-      "mdi-alert-circle-outline",
-    );
-
-    return;
-  }
-
-  // Prevent unnecessary updates
-  if (selectedRecord.status === "Completed") {
-    return;
-  }
-
-  selectedRecord.status = "Completed";
-
-  // Preserve the change after browser refresh
-  saveWorkoutStatuses();
-
-  displayFeedback(`${selectedRecord.exerciseName} marked as completed.`);
+    params: {
+      scheduleId,
+    },
+  });
 };
 
-// Open the selected workout video
-const openExerciseVideo = (workout) => {
-  selectedWorkout.value = workout;
-  showVideoDialog.value = true;
-};
-
-// Navigate back to Customer Dashboard
+// Return to Customer Dashboard
 const goToDashboard = () => {
   router.push({
     name: "customer-dashboard",
   });
 };
 
-// Profile page will be developed later
 const handleProfile = () => {
-  displayFeedback(
-    "The Customer Profile page will be added later.",
-    "info",
-    "mdi-information-outline",
-  );
+  feedback.value = {
+    visible: true,
+    message: "The Customer Profile page will be added later.",
+    color: "info",
+    icon: "mdi-information-outline",
+  };
 };
 
 // Logout the customer
@@ -343,9 +331,9 @@ const handleLogout = async () => {
   });
 };
 
-// Load stored completion states when the page opens
+// Load completion progress when the page opens
 onMounted(() => {
-  loadWorkoutStatuses();
+  loadExerciseStatuses();
 });
 </script>
 

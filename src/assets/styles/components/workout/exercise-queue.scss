@@ -1,0 +1,195 @@
+@use "../../variables" as *;
+
+.exercise-queue {
+  overflow: hidden;
+  background: $surface-color;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-small;
+
+  &__header {
+    padding: 21px 20px 16px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 15px;
+
+    h2 {
+      margin: 4px 0 0;
+      color: $text-primary;
+      font-size: 1.12rem;
+      font-weight: 800;
+    }
+  }
+
+  &__eyebrow {
+    color: $color-primary;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__summary {
+    margin: 0 20px 14px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 12px;
+    background: $background-secondary;
+    border: 1px solid $border-color;
+    border-radius: 11px;
+
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: $text-muted;
+      font-size: 0.66rem;
+
+      &:first-child .v-icon {
+        color: $success-color;
+      }
+
+      &:last-child .v-icon {
+        color: $warning-color;
+      }
+    }
+
+    strong {
+      color: $text-primary;
+      font-weight: 800;
+    }
+  }
+
+  // Keep a long exercise list inside the card
+  &__list {
+    max-height: 680px;
+    padding: 0 11px 13px;
+    overflow-y: auto;
+    scrollbar-color: $border-color-dark transparent;
+    scrollbar-width: thin;
+  }
+
+  &__item {
+    width: 100%;
+    min-height: 68px;
+    padding: 10px 9px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $text-primary;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    transition: $transition-default;
+
+    &:hover {
+      background: $background-secondary;
+      border-color: $border-color;
+    }
+
+    &--active {
+      background: $background-soft-red;
+      border-color: rgba($color-primary, 0.22);
+
+      .exercise-queue__number {
+        color: $text-on-primary;
+        background: $color-primary;
+        border-color: $color-primary;
+        box-shadow: 0 5px 13px rgba($color-primary, 0.22);
+      }
+    }
+
+    &--completed:not(&--active) {
+      .exercise-queue__number {
+        color: $success-color;
+        background: rgba($success-color, 0.09);
+        border-color: rgba($success-color, 0.18);
+      }
+    }
+  }
+
+  &__number {
+    width: 37px;
+    height: 37px;
+    flex: 0 0 37px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-secondary;
+    background: $background-secondary;
+    border: 1px solid $border-color;
+    border-radius: 10px;
+    font-size: 0.67rem;
+    font-weight: 800;
+    transition: $transition-default;
+  }
+
+  &__information {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    strong {
+      overflow: hidden;
+      color: $text-primary;
+      font-size: 0.76rem;
+      font-weight: 750;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    small {
+      overflow: hidden;
+      color: $text-muted;
+      font-size: 0.61rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__indicator {
+    flex-shrink: 0;
+    color: $text-muted;
+  }
+}
+
+// Mobile list
+@media (max-width: $breakpoint-mobile) {
+  .exercise-queue {
+    &__header {
+      padding: 18px 16px 14px;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    &__summary {
+      margin-right: 16px;
+      margin-left: 16px;
+    }
+
+    &__list {
+      max-height: 520px;
+      padding-right: 8px;
+      padding-left: 8px;
+    }
+
+    &__item {
+      min-height: 65px;
+      padding: 9px 7px;
+    }
+
+    &__information {
+      small {
+        max-width: 210px;
+      }
+    }
+  }
+}

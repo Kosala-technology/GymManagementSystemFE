@@ -1,6 +1,7 @@
 // Import customer pages
 import CustomerDashboardView from "../../views/customer/CustomerDashboardView.vue";
 import WorkoutScheduleView from "../../views/customer/WorkoutScheduleView.vue";
+import WorkoutSessionView from "../../views/customer/WorkoutSessionView.vue";
 
 // Customer-related route definitions
 const customerRoutes = [
@@ -22,6 +23,18 @@ const customerRoutes = [
 
     meta: {
       title: "Workout Schedule | FORWARD FIT",
+      requiresAuth: true,
+    },
+  },
+
+  {
+    // scheduleId identifies the selected daily schedule
+    path: "/customer/workout-schedule/:scheduleId",
+    name: "workout-session",
+    component: WorkoutSessionView,
+
+    meta: {
+      title: "Workout Session | FORWARD FIT",
       requiresAuth: true,
     },
   },

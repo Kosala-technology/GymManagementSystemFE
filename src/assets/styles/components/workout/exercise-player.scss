@@ -1,0 +1,391 @@
+@use "../../variables" as *;
+
+.exercise-player {
+  overflow: hidden;
+  background: $surface-color;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-medium;
+
+  &--completed {
+    border-color: rgba($success-color, 0.25);
+  }
+
+  &__topbar {
+    padding: 17px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+  &__position {
+    color: $text-primary;
+    font-size: 0.79rem;
+    font-weight: 800;
+  }
+
+  &__progress-text {
+    padding-left: 10px;
+    color: $text-muted;
+    border-left: 1px solid $border-color;
+    font-size: 0.7rem;
+  }
+
+  &__status {
+    font-size: 0.68rem;
+    font-weight: 750;
+  }
+
+  // Stack the video and exercise details inside the player.
+  // The exercise queue remains beside the player on wide screens.
+  &__body {
+    min-width: 0;
+    padding: 25px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
+  }
+
+  // Video area
+  &__video {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        circle at center,
+        rgba($color-primary, 0.18),
+        transparent 45%
+      ),
+      #17191e;
+    border-radius: $radius-medium;
+    aspect-ratio: 16 / 9;
+    min-height: 300px;
+    box-shadow: $shadow-medium;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: 0;
+    }
+  }
+
+  &__video-placeholder {
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: rgba($text-on-primary, 0.72);
+    text-align: center;
+
+    strong {
+      margin-top: 15px;
+      color: $text-on-primary;
+      font-size: 1rem;
+      font-weight: 750;
+    }
+
+    p {
+      max-width: 350px;
+      margin: 7px 0 16px;
+      font-size: 0.75rem;
+      line-height: 1.55;
+    }
+  }
+
+  &__play-icon {
+    width: 78px;
+    height: 78px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-on-primary;
+    background: rgba($surface-color, 0.1);
+    border: 1px solid rgba($surface-color, 0.16);
+    border-radius: 50%;
+    backdrop-filter: blur(8px);
+  }
+
+  &__video-label {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    left: 14px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $text-on-primary;
+    background: rgba($text-primary, 0.72);
+    border-radius: 9px;
+    font-size: 0.7rem;
+    backdrop-filter: blur(8px);
+  }
+
+  // Exercise details
+  &__information {
+    min-width: 0;
+
+    h1 {
+      margin: 6px 0 17px;
+      color: $text-primary;
+      font-size: clamp(1.45rem, 3vw, 2rem);
+      font-weight: 850;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+    }
+  }
+
+  &__category {
+    color: $color-primary;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  &__equipment {
+    margin-bottom: 16px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: $background-secondary;
+    border: 1px solid $border-color;
+    border-radius: 11px;
+
+    > span {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: $color-primary;
+      background: $surface-color;
+      border-radius: 9px;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    small {
+      color: $text-muted;
+      font-size: 0.62rem;
+    }
+
+    strong {
+      color: $text-primary;
+      font-size: 0.76rem;
+    }
+  }
+
+  &__measurements {
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+
+    > div {
+      min-width: 0;
+      padding: 12px 8px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 5px;
+      background: $surface-color;
+      border: 1px solid $border-color;
+      border-radius: 11px;
+      text-align: center;
+    }
+
+    > div > span {
+      color: $color-primary;
+    }
+
+    small {
+      color: $text-muted;
+      font-size: 0.59rem;
+    }
+
+    strong {
+      max-width: 100%;
+      overflow: hidden;
+      color: $text-primary;
+      font-size: 0.69rem;
+      font-weight: 750;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__instructions {
+    padding: 14px;
+    background: $background-soft-red;
+    border: 1px solid rgba($color-primary, 0.15);
+    border-radius: 12px;
+
+    p {
+      margin: 10px 0 0;
+      color: $text-secondary;
+      font-size: 0.73rem;
+      line-height: 1.58;
+    }
+  }
+
+  &__instructions-heading {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    > span {
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: $color-primary;
+      background: $surface-color;
+      border-radius: 9px;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    small {
+      color: $text-muted;
+      font-size: 0.59rem;
+    }
+
+    strong {
+      color: $text-primary;
+      font-size: 0.71rem;
+    }
+  }
+
+  &__actions {
+    padding: 17px 22px !important;
+    display: grid !important;
+    grid-template-columns:
+      minmax(110px, auto)
+      minmax(180px, 1fr)
+      minmax(110px, auto);
+    gap: 10px;
+  }
+
+  &__navigation-button,
+  &__complete-button,
+  &__completed-button {
+    min-height: 43px;
+    margin: 0 !important;
+    font-size: 0.73rem;
+    font-weight: 750;
+  }
+
+  &__complete-button {
+    box-shadow: $shadow-primary;
+  }
+}
+
+// Tablet
+@media (max-width: $breakpoint-tablet) {
+  .exercise-player {
+    &__body {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// Mobile
+@media (max-width: $breakpoint-mobile) {
+  .exercise-player {
+    &__topbar {
+      padding: 15px 16px;
+    }
+
+    &__progress-text {
+      display: none;
+    }
+
+    &__body {
+      padding: 17px 16px;
+      gap: 20px;
+    }
+
+    &__video-placeholder {
+      padding: 20px 15px;
+    }
+
+    &__play-icon {
+      width: 62px;
+      height: 62px;
+    }
+
+    &__measurements {
+      grid-template-columns: 1fr;
+    }
+
+    &__measurements > div {
+      padding: 10px 12px;
+      align-items: center;
+      flex-direction: row;
+      text-align: left;
+
+      small {
+        margin-left: 3px;
+      }
+
+      strong {
+        margin-left: auto;
+      }
+    }
+
+    &__actions {
+      padding: 15px 16px !important;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__complete-button,
+    &__completed-button {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+  }
+
+  .exercise-player {
+    // Keep the current exercise visible below the sticky header.
+    scroll-margin-top: 92px;
+
+    &__video-label {
+      // Prevent the label from intercepting future video controls.
+      pointer-events: none;
+    }
+
+    &__video-placeholder {
+      // Reserve space for the bottom exercise label.
+      padding-bottom: 64px;
+    }
+
+    &__measurements strong {
+      // Show the full repetition/rest instruction without truncation.
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+  }
+}

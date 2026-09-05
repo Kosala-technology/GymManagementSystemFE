@@ -47,16 +47,19 @@
     }
 
     p {
+      max-width: 420px;
       margin: 0;
       color: $text-muted;
       font-size: 0.75rem;
+      line-height: 1.5;
+      text-align: right;
     }
   }
 
+  // Make every daily schedule card equal height
   &__grid {
     align-items: stretch;
 
-    // Make every Vuetify column/card equal height
     > .v-col {
       display: flex;
 
@@ -66,7 +69,6 @@
     }
   }
 
-  // Empty filter result
   &__empty-state {
     padding: 52px 24px;
     display: flex;
@@ -112,7 +114,6 @@
   }
 }
 
-// Tablet layout
 @media (max-width: $breakpoint-tablet) {
   .workout-schedule-page {
     &__container {
@@ -121,7 +122,6 @@
   }
 }
 
-// Mobile layout
 @media (max-width: $breakpoint-mobile) {
   .workout-schedule-page {
     &__main {
@@ -141,6 +141,10 @@
       align-items: flex-start;
       flex-direction: column;
       gap: 5px;
+
+      p {
+        text-align: left;
+      }
     }
 
     &__empty-state {
