@@ -1,0 +1,296 @@
+// Import FORWARD FIT design variables
+@use "../../variables" as *;
+
+.verification-code-card {
+  position: relative;
+  overflow: visible;
+
+  padding: 34px;
+
+  background-color: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: 24px !important;
+
+  box-shadow:
+    0 8px 20px rgba(21, 24, 29, 0.08),
+    0 28px 70px rgba(21, 24, 29, 0.18) !important;
+}
+
+// --------------------------------------------------
+// Close button and verification icon
+// --------------------------------------------------
+
+.dialog-close-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  color: $text-muted;
+}
+
+.dialog-close-button:hover {
+  color: $text-primary;
+  background-color: $background-secondary;
+}
+
+.verification-icon-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 64px;
+  height: 64px;
+  margin-bottom: 22px;
+
+  color: $color-primary;
+  background-color: $background-soft-red;
+  border: 1px solid rgba($color-primary, 0.14);
+  border-radius: 19px;
+
+  box-shadow: 0 10px 24px rgba($color-primary, 0.12);
+}
+
+// --------------------------------------------------
+// Heading
+// --------------------------------------------------
+
+.dialog-step {
+  display: block;
+  margin-bottom: 7px;
+
+  color: $color-primary;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.65px;
+  text-transform: uppercase;
+}
+
+.verification-content h2 {
+  margin-bottom: 10px;
+
+  color: $text-primary;
+  font-size: 1.65rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.verification-content p {
+  color: $text-secondary;
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+.verification-content strong {
+  color: $text-primary;
+  font-weight: 800;
+}
+
+// --------------------------------------------------
+// OTP input
+// --------------------------------------------------
+
+.verification-code-input {
+  margin-top: 24px;
+}
+
+.verification-code-input:deep(.v-otp-input__content) {
+  gap: 8px;
+  max-width: 100%;
+  padding: 0;
+}
+
+.verification-code-input:deep(.v-field) {
+  height: 58px;
+
+  background-color: $background-primary;
+  border-radius: 12px;
+
+  box-shadow: 0 3px 8px rgba(21, 24, 29, 0.04);
+
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.verification-code-input:deep(.v-field--focused) {
+  box-shadow: 0 0 0 4px rgba($color-primary, 0.12);
+  transform: translateY(-2px);
+}
+
+.verification-code-input:deep(input) {
+  color: $text-primary;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+// --------------------------------------------------
+// Error and countdown
+// --------------------------------------------------
+
+.verification-error {
+  margin-top: 16px;
+  border-radius: 12px;
+}
+
+.expiry-information {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 18px;
+
+  color: $text-muted;
+  font-size: 0.73rem;
+  text-align: center;
+}
+
+.expiry-information .v-icon {
+  color: $color-primary;
+}
+
+.expiry-information strong {
+  color: $text-primary;
+}
+
+// --------------------------------------------------
+// Resend controls
+// --------------------------------------------------
+
+.verification-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 10px;
+}
+
+.verification-links .v-btn {
+  min-width: auto;
+  padding-inline: 7px;
+
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+// --------------------------------------------------
+// Action buttons
+// --------------------------------------------------
+
+.dialog-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.45fr;
+  gap: 12px;
+
+  margin-top: 25px;
+}
+
+.back-button,
+.verify-button {
+  min-height: 50px;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: 12px !important;
+}
+
+.back-button {
+  border-color: $border-color-dark;
+}
+
+.verify-button {
+  box-shadow:
+    0 4px 10px rgba($color-primary, 0.16),
+    0 14px 28px rgba($color-primary, 0.22) !important;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.verify-button:hover {
+  box-shadow:
+    0 6px 12px rgba($color-primary, 0.2),
+    0 18px 34px rgba($color-primary, 0.28) !important;
+
+  transform: translateY(-2px);
+}
+
+// --------------------------------------------------
+// Security message
+// --------------------------------------------------
+
+.security-information {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 20px;
+  padding-top: 18px;
+
+  color: $text-muted;
+  font-size: 0.68rem;
+  border-top: 1px solid $border-color;
+}
+
+.security-information .v-icon {
+  color: $success-color;
+}
+
+// --------------------------------------------------
+// Mobile
+// --------------------------------------------------
+
+@media (max-width: $breakpoint-mobile) {
+  .verification-code-card {
+    margin: 14px;
+    padding: 28px 20px 22px;
+    border-radius: 20px !important;
+  }
+
+  .verification-icon-container {
+    width: 54px;
+    height: 54px;
+  }
+
+  .verification-content h2 {
+    font-size: 1.42rem;
+  }
+
+  .verification-code-input:deep(.v-otp-input__content) {
+    gap: 5px;
+  }
+
+  .verification-code-input:deep(.v-field) {
+    height: 52px;
+    border-radius: 9px;
+  }
+
+  .verification-code-input:deep(input) {
+    font-size: 1.05rem;
+  }
+
+  .verification-links {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .dialog-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .verify-button {
+    grid-row: 1;
+  }
+
+  .back-button {
+    grid-row: 2;
+  }
+
+  .security-information {
+    align-items: flex-start;
+    text-align: left;
+  }
+}

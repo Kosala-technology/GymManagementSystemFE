@@ -1,0 +1,163 @@
+@use "../../variables" as *;
+
+.dashboard-info-card {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: $surface-color;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-small;
+  transition: $transition-default;
+
+  &:hover {
+    border-color: rgba($color-primary, 0.28);
+    box-shadow: $shadow-medium;
+    transform: translateY(-4px);
+  }
+
+  // Highlight an important card such as the next workout
+  &--highlighted {
+    background:
+      linear-gradient(
+        135deg,
+        rgba($color-primary, 0.08),
+        rgba($color-primary, 0.015)
+      ),
+      $surface-color;
+    border-color: rgba($color-primary, 0.22);
+  }
+
+  &__content {
+    min-height: 158px;
+    padding: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 17px;
+  }
+
+  // Rounded icon container
+  &__icon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+
+    &--primary {
+      color: $color-primary;
+      background: rgba($color-primary, 0.11);
+    }
+
+    &--success {
+      color: $success-color;
+      background: rgba($success-color, 0.11);
+    }
+
+    &--warning {
+      color: $warning-color;
+      background: rgba($warning-color, 0.12);
+    }
+  }
+
+  &__details {
+    min-width: 0;
+    flex: 1;
+
+    h3 {
+      margin: 7px 0 10px;
+      overflow: hidden;
+      color: $text-primary;
+      font-size: 1.05rem;
+      font-weight: 750;
+      line-height: 1.35;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__label {
+    color: $text-muted;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+  }
+
+  &__description {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: $text-secondary;
+    font-size: 0.78rem;
+    line-height: 1.4;
+
+    .v-icon {
+      flex-shrink: 0;
+      color: $color-primary;
+    }
+  }
+
+  &__action {
+    flex-shrink: 0;
+    color: $text-muted;
+    background: $background-secondary;
+
+    &:hover {
+      color: $text-on-primary;
+      background: $color-primary;
+      transform: rotate(5deg);
+    }
+  }
+
+  // Coloured line at the bottom
+  &__accent {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+
+    &--primary {
+      background: $color-primary;
+    }
+
+    &--success {
+      background: $success-color;
+    }
+
+    &--warning {
+      background: $warning-color;
+    }
+  }
+
+  &:hover &__accent {
+    transform: scaleX(1);
+  }
+}
+
+// Small mobile screens
+@media (max-width: $breakpoint-mobile) {
+  .dashboard-info-card {
+    &__content {
+      min-height: 145px;
+      padding: 21px 19px;
+    }
+
+    &__icon {
+      width: 44px;
+      height: 44px;
+      flex-basis: 44px;
+    }
+
+    &__details {
+      h3 {
+        font-size: 0.98rem;
+      }
+    }
+  }
+}

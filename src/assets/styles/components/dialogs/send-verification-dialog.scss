@@ -1,0 +1,245 @@
+// Import FORWARD FIT design variables
+@use "../../variables" as *;
+
+.verification-send-card {
+  position: relative;
+  overflow: visible;
+
+  padding: 34px;
+
+  background-color: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: 24px !important;
+
+  box-shadow:
+    0 8px 20px rgba(21, 24, 29, 0.08),
+    0 28px 70px rgba(21, 24, 29, 0.18) !important;
+}
+
+// --------------------------------------------------
+// Close button
+// --------------------------------------------------
+
+.dialog-close-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  color: $text-muted;
+}
+
+.dialog-close-button:hover {
+  color: $text-primary;
+  background-color: $background-secondary;
+}
+
+// --------------------------------------------------
+// Dialog icon
+// --------------------------------------------------
+
+.dialog-icon-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 62px;
+  height: 62px;
+  margin-bottom: 22px;
+
+  color: $color-primary;
+  background-color: $background-soft-red;
+  border: 1px solid rgba($color-primary, 0.14);
+  border-radius: 18px;
+
+  box-shadow: 0 10px 24px rgba($color-primary, 0.12);
+}
+
+// --------------------------------------------------
+// Dialog heading and description
+// --------------------------------------------------
+
+.dialog-step {
+  display: block;
+  margin-bottom: 7px;
+
+  color: $color-primary;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.65px;
+  text-transform: uppercase;
+}
+
+.dialog-content h2 {
+  margin-bottom: 10px;
+
+  color: $text-primary;
+  font-size: 1.65rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.dialog-content > p {
+  color: $text-secondary;
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+// --------------------------------------------------
+// Mobile number box
+// --------------------------------------------------
+
+.mobile-number-box {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  margin-top: 22px;
+  padding: 14px;
+
+  background-color: $background-secondary;
+  border: 1px solid $border-color;
+  border-radius: 14px;
+}
+
+.mobile-number-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 42px;
+  height: 42px;
+
+  color: $text-on-primary;
+  background-color: $color-primary;
+  border-radius: 12px;
+}
+
+.mobile-number-box > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mobile-number-box small {
+  color: $text-muted;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.mobile-number-box strong {
+  overflow: hidden;
+
+  color: $text-primary;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.edit-number-button {
+  min-width: auto;
+  padding-inline: 8px;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+// --------------------------------------------------
+// Information message
+// --------------------------------------------------
+
+.sms-information {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+
+  margin-top: 16px;
+
+  color: $text-muted;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.sms-information .v-icon {
+  flex-shrink: 0;
+  color: $color-primary;
+}
+
+// --------------------------------------------------
+// Dialog buttons
+// --------------------------------------------------
+
+.dialog-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 12px;
+
+  margin-top: 28px;
+}
+
+.cancel-button,
+.send-code-button {
+  min-height: 50px;
+
+  font-size: 0.83rem;
+  font-weight: 700;
+  border-radius: 12px !important;
+}
+
+.cancel-button {
+  border-color: $border-color-dark;
+}
+
+.send-code-button {
+  box-shadow:
+    0 4px 10px rgba($color-primary, 0.16),
+    0 14px 28px rgba($color-primary, 0.22) !important;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.send-code-button:hover {
+  box-shadow:
+    0 6px 12px rgba($color-primary, 0.2),
+    0 18px 34px rgba($color-primary, 0.28) !important;
+
+  transform: translateY(-2px);
+}
+
+// --------------------------------------------------
+// Mobile styles
+// --------------------------------------------------
+
+@media (max-width: $breakpoint-mobile) {
+  .verification-send-card {
+    margin: 14px;
+    padding: 28px 20px 22px;
+    border-radius: 20px !important;
+  }
+
+  .dialog-icon-container {
+    width: 54px;
+    height: 54px;
+  }
+
+  .dialog-content h2 {
+    font-size: 1.45rem;
+  }
+
+  .dialog-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .send-code-button {
+    grid-row: 1;
+  }
+
+  .cancel-button {
+    grid-row: 2;
+  }
+}

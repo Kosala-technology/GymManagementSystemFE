@@ -4,10 +4,7 @@
     <!-- Login heading -->
     <div class="login-heading">
       <span class="login-icon">
-        <v-icon
-          icon="mdi-account-lock-outline"
-          size="25"
-        />
+        <v-icon icon="mdi-account-lock-outline" size="25" />
       </span>
 
       <h1>Welcome back</h1>
@@ -26,9 +23,7 @@
     >
       <!-- Member ID or Email field -->
       <div class="form-group">
-        <label for="member-identifier">
-          Member ID or email
-        </label>
+        <label for="member-identifier"> Member ID or email </label>
 
         <v-text-field
           id="member-identifier"
@@ -49,9 +44,7 @@
 
       <!-- Password field -->
       <div class="form-group">
-        <label for="password">
-          Password
-        </label>
+        <label for="password"> Password </label>
 
         <v-text-field
           id="password"
@@ -59,9 +52,7 @@
           :rules="passwordRules"
           :type="showPassword ? 'text' : 'password'"
           :append-inner-icon="
-            showPassword
-              ? 'mdi-eye-off-outline'
-              : 'mdi-eye-outline'
+            showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'
           "
           placeholder="Enter your password"
           prepend-inner-icon="mdi-lock-outline"
@@ -110,11 +101,7 @@
       >
         Login to your account
 
-        <v-icon
-          icon="mdi-arrow-right"
-          end
-          size="20"
-        />
+        <v-icon icon="mdi-arrow-right" end size="20" />
       </v-btn>
     </v-form>
 
@@ -122,21 +109,38 @@
     <p class="registration-message">
       Don’t have a member account?
 
-      <router-link :to="{ name: 'register' }">
-        Create an account
-      </router-link>
+      <router-link :to="{ name: 'register' }"> Create an account </router-link>
     </p>
 
     <!-- Security message -->
     <div class="security-message">
-      <v-icon
-        icon="mdi-shield-check-outline"
-        size="18"
-      />
+      <v-icon icon="mdi-shield-check-outline" size="18" />
 
       <span>Your account information is securely protected.</span>
     </div>
   </v-card>
+
+  <!-- Ask the customer to send a verification code -->
+  <SendVerificationDialog
+    v-model="showSendVerificationDialog"
+    :phone-number="registeredPhoneNumber"
+    :loading="isSendingCode"
+    @send="handleSendVerificationCode"
+    @edit="handlePhoneNumberInformation"
+  />
+
+  <!-- Enter and verify the received code -->
+  <VerificationCodeDialog
+    v-model="showVerificationCodeDialog"
+    :phone-number="registeredPhoneNumber"
+    :loading="isVerifyingCode"
+    :error-message="verificationError"
+    :resend-delay="60"
+    @verify="handleVerifyCode"
+    @resend="handleResendCode"
+    @back="returnToSendDialog"
+    @edit="handlePhoneNumberInformation"
+  />
 
   <!-- Temporary development feedback -->
   <v-snackbar
@@ -148,114 +152,217 @@
     {{ feedback.message }}
 
     <template #actions>
-      <v-btn
-        variant="text"
-        @click="feedback.visible = false"
-      >
-        Close
-      </v-btn>
+      <v-btn variant="text" @click="feedback.visible = false"> Close </v-btn>
     </template>
   </v-snackbar>
 </template>
 
 <script setup>
-// Import Vue reactive utilities
-import { reactive, ref } from 'vue'
+// Import Vue utilities
+import { reactive, ref } from "vue";
+
+// Import Vue Router for dashboard navigation
+import { useRouter } from "vue-router";
+
+// Import the verification dialogs created earlier
+import SendVerificationDialog from "./dialogs/SendVerificationDialog.vue";
+import VerificationCodeDialog from "./dialogs/VerificationCodeDialog.vue";
+
+// Access Vue Router
+const router = useRouter();
 
 // Store a reference to the Vuetify form
-const loginForm = ref(null)
+const loginForm = ref(null);
 
 // Track whether the entire form is valid
-const isFormValid = ref(false)
+const isFormValid = ref(false);
 
 // Control password visibility
-const showPassword = ref(false)
+const showPassword = ref(false);
 
-// Control the Login button loading state
-const isSubmitting = ref(false)
+// Control loading states
+const isSubmitting = ref(false);
+const isSendingCode = ref(false);
+const isVerifyingCode = ref(false);
+
+// Control verification dialogs
+const showSendVerificationDialog = ref(false);
+const showVerificationCodeDialog = ref(false);
+
+// Store verification error message
+const verificationError = ref("");
+
+// Temporary registered mobile number
+// The backend will later return the customer's registered number
+const registeredPhoneNumber = ref("+94 77 *** **45");
+
+// Development verification code
+// This must be replaced by backend verification in production
+const developmentVerificationCode = "123456";
 
 // Store form field values
 const formData = reactive({
-  memberIdentifier: '',
-  password: '',
+  memberIdentifier: "",
+  password: "",
   rememberMe: false,
-})
+});
 
 // Store temporary user feedback
 const feedback = reactive({
   visible: false,
-  message: '',
-  color: 'info',
-})
+  message: "",
+  color: "info",
+});
 
 // Member ID or Email validation
 const memberIdentifierRules = [
-  (value) =>
-    Boolean(value?.trim()) ||
-    'Member ID or email is required',
+  (value) => Boolean(value?.trim()) || "Member ID or email is required",
 
-  (value) =>
-    value?.trim().length >= 5 ||
-    'Enter a valid Member ID or email',
-]
+  (value) => value?.trim().length >= 5 || "Enter a valid Member ID or email",
+];
 
 // Password validation
 const passwordRules = [
-  (value) =>
-    Boolean(value) ||
-    'Password is required',
+  (value) => Boolean(value) || "Password is required",
 
   (value) =>
-    value?.length >= 8 ||
-    'Password must contain at least 8 characters',
-]
+    value?.length >= 8 || "Password must contain at least 8 characters",
+];
 
 // Show or hide the password
 const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value
-}
+  showPassword.value = !showPassword.value;
+};
 
 // Display temporary forgot-password feedback
 const handleForgotPassword = () => {
   feedback.message =
-    'Password recovery will be connected to the backend service.'
+    "Password recovery will be connected to the backend service.";
 
-  feedback.color = 'info'
-  feedback.visible = true
-}
+  feedback.color = "info";
+  feedback.visible = true;
+};
 
-// Validate and prepare Login data
+// Validate the login information
 const handleLogin = async () => {
-  // Validate all form fields
-  const validationResult = await loginForm.value.validate()
+  const validationResult = await loginForm.value.validate();
 
-  // Stop submission if validation fails
+  // Stop when form validation fails
   if (!validationResult.valid) {
     feedback.message =
-      'Please correct the highlighted fields before continuing.'
+      "Please correct the highlighted fields before continuing.";
 
-    feedback.color = 'error'
-    feedback.visible = true
-    return
+    feedback.color = "error";
+    feedback.visible = true;
+    return;
   }
 
-  isSubmitting.value = true
+  isSubmitting.value = true;
 
-  // Temporary delay used to demonstrate the loading state
+  // Temporary delay that represents the Login API request
   await new Promise((resolve) => {
-    setTimeout(resolve, 800)
-  })
+    setTimeout(resolve, 800);
+  });
 
-  // Backend API integration will replace this temporary feedback
+  isSubmitting.value = false;
+  verificationError.value = "";
+
+  // After successful login, request verification
+  showSendVerificationDialog.value = true;
+};
+
+// Simulate sending a verification code
+const handleSendVerificationCode = async () => {
+  isSendingCode.value = true;
+
+  // This delay will later be replaced with an OTP API request
+  await new Promise((resolve) => {
+    setTimeout(resolve, 900);
+  });
+
+  isSendingCode.value = false;
+  showSendVerificationDialog.value = false;
+  showVerificationCodeDialog.value = true;
+
   feedback.message =
-    'Login form is valid and ready for backend integration.'
+    "Verification code sent. Use 123456 for development testing.";
 
-  feedback.color = 'success'
-  feedback.visible = true
-  isSubmitting.value = false
-}
+  feedback.color = "success";
+  feedback.visible = true;
+};
+
+// Verify the entered code
+const handleVerifyCode = async (enteredCode) => {
+  verificationError.value = "";
+  isVerifyingCode.value = true;
+
+  // Temporary delay that represents backend verification
+  await new Promise((resolve) => {
+    setTimeout(resolve, 700);
+  });
+
+  // Compare with the temporary development code
+  if (String(enteredCode).trim() !== developmentVerificationCode) {
+    verificationError.value =
+      "The verification code is incorrect. Please try again.";
+
+    isVerifyingCode.value = false;
+    return;
+  }
+
+  // Store temporary authentication information
+  // A real project should use a secure backend-generated token
+  const loginStorage = formData.rememberMe ? localStorage : sessionStorage;
+
+  loginStorage.setItem("forwardFitCustomerAuthenticated", "true");
+
+  loginStorage.setItem("forwardFitMemberIdentifier", formData.memberIdentifier);
+
+  isVerifyingCode.value = false;
+  showVerificationCodeDialog.value = false;
+
+  // Navigate to the Customer Dashboard
+  await router.push({
+    name: "customer-dashboard",
+  });
+};
+
+// Resend the development verification code
+const handleResendCode = async () => {
+  verificationError.value = "";
+  isVerifyingCode.value = true;
+
+  await new Promise((resolve) => {
+    setTimeout(resolve, 700);
+  });
+
+  isVerifyingCode.value = false;
+
+  feedback.message =
+    "A new verification code was sent. Development code: 123456";
+
+  feedback.color = "success";
+  feedback.visible = true;
+};
+
+// Return from code entry to the send-code dialog
+const returnToSendDialog = () => {
+  verificationError.value = "";
+  showVerificationCodeDialog.value = false;
+  showSendVerificationDialog.value = true;
+};
+
+// Explain why the mobile number cannot be changed here
+const handlePhoneNumberInformation = () => {
+  feedback.message =
+    "This number is connected to your member account. Contact the gym administrator to change it.";
+
+  feedback.color = "info";
+  feedback.visible = true;
+};
 </script>
 
+<!-- Existing external SCSS file -->
 <style
   lang="scss"
   scoped

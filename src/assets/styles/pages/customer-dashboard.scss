@@ -1,0 +1,193 @@
+@use "../variables" as *;
+
+.customer-dashboard {
+  min-height: 100vh;
+  color: $text-primary;
+  background:
+    radial-gradient(
+      circle at 8% 12%,
+      rgba($color-primary, 0.055),
+      transparent 22%
+    ),
+    $background-secondary;
+
+  &__main {
+    padding: 38px 0 55px;
+  }
+
+  &__container {
+    width: min(100% - 48px, $container-max-width);
+    margin: 0 auto;
+  }
+
+  // Dashboard introduction
+  &__introduction {
+    margin-bottom: 27px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+
+    h2 {
+      margin: 6px 0 8px;
+      color: $text-primary;
+      font-size: clamp(1.65rem, 4vw, 2.35rem);
+      font-weight: 850;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+    }
+
+    p {
+      max-width: 600px;
+      margin: 0;
+      color: $text-secondary;
+      font-size: 0.91rem;
+      line-height: 1.65;
+    }
+  }
+
+  &__eyebrow {
+    color: $color-primary;
+    font-size: 0.73rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  // Current date box
+  &__date {
+    min-width: 205px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    background: $surface-color;
+    border: 1px solid $border-color;
+    border-radius: $radius-medium;
+    box-shadow: $shadow-small;
+
+    &-icon {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: $color-primary;
+      background: $background-soft-red;
+      border-radius: 12px;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    small {
+      color: $text-muted;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    strong {
+      color: $text-primary;
+      font-size: 0.84rem;
+      font-weight: 750;
+    }
+  }
+
+  // Information card section
+  &__information {
+    margin: 35px 0;
+  }
+
+  &__section-heading {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+
+    span {
+      color: $color-primary;
+      font-size: 0.69rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 3px 0 0;
+      color: $text-primary;
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: $text-muted;
+      font-size: 0.8rem;
+    }
+  }
+
+  &__snackbar {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+}
+
+// Tablet responsiveness
+@media (max-width: $breakpoint-tablet) {
+  .customer-dashboard {
+    &__main {
+      padding-top: 30px;
+    }
+
+    &__container {
+      width: min(100% - 32px, $container-max-width);
+    }
+
+    &__introduction {
+      align-items: flex-start;
+    }
+
+    &__section-heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+}
+
+// Mobile responsiveness
+@media (max-width: $breakpoint-mobile) {
+  .customer-dashboard {
+    &__main {
+      padding: 24px 0 40px;
+    }
+
+    &__container {
+      width: calc(100% - 24px);
+    }
+
+    &__introduction {
+      margin-bottom: 21px;
+      flex-direction: column;
+      gap: 16px;
+
+      h2 {
+        font-size: 1.65rem;
+      }
+    }
+
+    &__date {
+      width: 100%;
+    }
+
+    &__information {
+      margin: 28px 0;
+    }
+  }
+}

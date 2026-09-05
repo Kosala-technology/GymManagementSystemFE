@@ -1,0 +1,292 @@
+@use "../../variables" as *;
+
+.quick-actions {
+  padding: 27px 28px 29px;
+  background: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: $radius-large;
+  box-shadow: $shadow-small;
+
+  &__heading {
+    margin-bottom: 22px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+
+    h2 {
+      margin: 4px 0 0;
+      color: $text-primary;
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: $text-muted;
+      font-size: 0.82rem;
+    }
+  }
+
+  &__eyebrow {
+    color: $color-primary;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+.quick-action-card {
+  position: relative;
+  min-height: 110px;
+  padding: 19px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+  color: $text-primary;
+  background: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  box-shadow: 0 3px 10px rgba($text-primary, 0.025);
+  transition: $transition-default;
+
+  // Decorative circle
+  &::before {
+    position: absolute;
+    right: -34px;
+    bottom: -48px;
+    width: 100px;
+    height: 100px;
+    background: rgba($color-primary, 0.045);
+    border-radius: 50%;
+    content: "";
+    transition: $transition-default;
+  }
+
+  &:hover {
+    border-color: rgba($color-primary, 0.3);
+    box-shadow: $shadow-small;
+    transform: translateY(-4px);
+
+    &::before {
+      transform: scale(1.35);
+    }
+
+    .quick-action-card__arrow {
+      color: $text-on-primary;
+      background: $color-primary;
+      transform: translateX(3px);
+    }
+  }
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-primary;
+    background: $background-soft-red;
+    border-radius: 14px;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    strong {
+      color: inherit;
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    small {
+      color: $text-muted;
+      font-size: 0.72rem;
+      line-height: 1.4;
+    }
+  }
+
+  &__arrow {
+    position: relative;
+    z-index: 1;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-muted;
+    background: $background-secondary;
+    border-radius: 10px;
+    transition: $transition-default;
+  }
+
+  // Main Workout Schedule button
+  &--primary {
+    color: $text-on-primary;
+    background: linear-gradient(135deg, $color-primary, $color-primary-hover);
+    border-color: transparent;
+    box-shadow: $shadow-primary;
+
+    &::before {
+      background: rgba($surface-color, 0.1);
+    }
+
+    .quick-action-card__icon {
+      color: $text-on-primary;
+      background: rgba($surface-color, 0.16);
+    }
+
+    .quick-action-card__content small {
+      color: rgba($text-on-primary, 0.76);
+    }
+
+    .quick-action-card__arrow {
+      color: $text-on-primary;
+      background: rgba($surface-color, 0.15);
+    }
+
+    &:hover {
+      border-color: transparent;
+      box-shadow: 0 16px 32px rgba($color-primary, 0.3);
+
+      .quick-action-card__arrow {
+        color: $color-primary;
+        background: $surface-color;
+      }
+    }
+  }
+
+  // Logout button
+  &--logout {
+    .quick-action-card__icon {
+      color: $error-color;
+      background: rgba($error-color, 0.09);
+    }
+
+    &:hover {
+      border-color: rgba($error-color, 0.28);
+
+      .quick-action-card__arrow {
+        color: $text-on-primary;
+        background: $error-color;
+      }
+    }
+  }
+}
+
+// Tablet layout
+@media (max-width: $breakpoint-tablet) {
+  .quick-actions {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .quick-action-card {
+    min-height: 96px;
+  }
+}
+
+// Mobile layout
+@media (max-width: $breakpoint-mobile) {
+  .quick-actions {
+    padding: 22px 18px;
+    border-radius: $radius-medium;
+
+    &__heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 7px;
+    }
+  }
+
+  .quick-action-card {
+    padding: 16px 14px;
+
+    &__icon {
+      width: 43px;
+      height: 43px;
+      flex-basis: 43px;
+    }
+
+    &__arrow {
+      width: 31px;
+      height: 31px;
+      flex-basis: 31px;
+    }
+  }
+}
+
+// Tablet quick-action layout
+@media (max-width: $breakpoint-tablet) {
+  .quick-actions {
+    &__heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  // Logout card uses the available full row
+  .quick-action-card--logout {
+    grid-column: 1 / -1;
+  }
+}
+
+// Mobile quick-action layout
+@media (max-width: $breakpoint-mobile) {
+  .quick-actions {
+    padding: 23px 18px;
+
+    &__heading {
+      margin-bottom: 18px;
+
+      h2 {
+        font-size: 1.2rem;
+      }
+    }
+
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
+  .quick-action-card {
+    min-height: 98px;
+    padding: 16px;
+
+    &--logout {
+      grid-column: auto;
+    }
+
+    &__icon {
+      width: 44px;
+      height: 44px;
+      flex-basis: 44px;
+    }
+  }
+}

@@ -102,6 +102,7 @@
 
             <v-text-field
               id="mobile-number"
+              ref="mobileNumberField"
               v-model.trim="formData.mobileNumber"
               :rules="mobileRules"
               type="tel"
@@ -319,6 +320,28 @@
     </div>
   </v-card>
 
+  <!-- Ask the customer to confirm and send the SMS code -->
+  <SendVerificationDialog
+    v-model="showSendVerificationDialog"
+    :phone-number="formData.mobileNumber"
+    :loading="isSendingCode"
+    @send="handleSendVerificationCode"
+    @edit="focusMobileNumberField"
+  />
+
+  <!-- Allow the customer to enter the received SMS code -->
+  <VerificationCodeDialog
+    v-model="showVerificationCodeDialog"
+    :phone-number="formData.mobileNumber"
+    :loading="isCodeProcessing"
+    :error-message="verificationError"
+    :resend-delay="60"
+    @verify="handleVerifyCode"
+    @resend="handleResendCode"
+    @back="returnToSendDialog"
+    @edit="editMobileNumber"
+  />
+
   <!-- Development feedback -->
   <v-snackbar
     v-model="feedback.visible"
@@ -336,22 +359,42 @@
 
 <script setup>
 // Import Vue reactive utilities
-import { reactive, ref } from "vue";
+import { nextTick, reactive, ref } from "vue";
 
-// Store the Vuetify form reference
+// Import the reusable verification dialogs
+import SendVerificationDialog from "./dialogs/SendVerificationDialog.vue";
+import VerificationCodeDialog from "./dialogs/VerificationCodeDialog.vue";
+
+// Temporary code used only for frontend testing
+// Replace this with backend verification later
+const DEVELOPMENT_VERIFICATION_CODE = "123456";
+
+// Store references to form elements
 const registrationForm = ref(null);
+const mobileNumberField = ref(null);
 
 // Track the complete form validity
 const isFormValid = ref(false);
 
-// Password visibility controls
+// Control password visibility
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 
-// Submit button loading state
+// Registration form loading state
 const isSubmitting = ref(false);
 
-// Today's date prevents future birth dates
+// Verification dialog states
+const showSendVerificationDialog = ref(false);
+const showVerificationCodeDialog = ref(false);
+
+// Verification loading states
+const isSendingCode = ref(false);
+const isCodeProcessing = ref(false);
+
+// Verification error received from the backend
+const verificationError = ref("");
+
+// Prevent future dates from being selected
 const today = new Date().toISOString().split("T")[0];
 
 // Registration form data
@@ -368,17 +411,17 @@ const formData = reactive({
   acceptTerms: false,
 });
 
-// User feedback details
+// Snackbar feedback information
 const feedback = reactive({
   visible: false,
   message: "",
   color: "info",
 });
 
-// Gender selection options
+// Gender options
 const genderOptions = ["Male", "Female", "Prefer not to say"];
 
-// Fitness goal selection options
+// Fitness-goal options
 const fitnessGoalOptions = [
   "Build muscle",
   "Lose weight",
@@ -387,7 +430,10 @@ const fitnessGoalOptions = [
   "General fitness",
 ];
 
-// Name validation
+// --------------------------------------------------
+// Form validation rules
+// --------------------------------------------------
+
 const nameRules = [
   (value) => Boolean(value?.trim()) || "This name is required",
 
@@ -396,7 +442,6 @@ const nameRules = [
   (value) => /^[\p{L}\s.'-]+$/u.test(value || "") || "Enter a valid name",
 ];
 
-// Email validation
 const emailRules = [
   (value) => Boolean(value?.trim()) || "Email address is required",
 
@@ -405,7 +450,6 @@ const emailRules = [
     "Enter a valid email address",
 ];
 
-// Mobile number validation
 const mobileRules = [
   (value) => Boolean(value?.trim()) || "Mobile number is required",
 
@@ -413,7 +457,6 @@ const mobileRules = [
     /^\+?[0-9\s-]{9,15}$/.test(value || "") || "Enter a valid mobile number",
 ];
 
-// Date-of-birth validation
 const dateOfBirthRules = [
   (value) => Boolean(value) || "Date of birth is required",
 
@@ -423,12 +466,10 @@ const dateOfBirthRules = [
     "Date of birth cannot be in the future",
 ];
 
-// Required dropdown validation
 const requiredSelectionRule = [
   (value) => Boolean(value) || "Please select an option",
 ];
 
-// Password validation
 const passwordRules = [
   (value) => Boolean(value) || "Password is required",
 
@@ -444,53 +485,186 @@ const passwordRules = [
   (value) => /\d/.test(value || "") || "Include at least one number",
 ];
 
-// Confirm-password validation
 const confirmPasswordRules = [
   (value) => Boolean(value) || "Please confirm your password",
 
   (value) => value === formData.password || "Passwords do not match",
 ];
 
-// Terms checkbox validation
 const termsRules = [
   (value) => value === true || "You must accept the terms to continue",
 ];
 
-// Display temporary policy feedback
-const showPolicyMessage = (policyName) => {
-  feedback.message = `${policyName} page will be connected later.`;
+// --------------------------------------------------
+// General feedback
+// --------------------------------------------------
 
-  feedback.color = "info";
+const showFeedback = (message, color = "info") => {
+  feedback.message = message;
+  feedback.color = color;
   feedback.visible = true;
 };
 
-// Validate and prepare registration data
+const showPolicyMessage = (policyName) => {
+  showFeedback(`${policyName} page will be connected later.`, "info");
+};
+
+// --------------------------------------------------
+// Registration submission
+// --------------------------------------------------
+
 const handleRegistration = async () => {
+  // Validate all registration fields
   const validationResult = await registrationForm.value.validate();
 
   if (!validationResult.valid) {
-    feedback.message =
-      "Please correct the highlighted fields before continuing.";
-
-    feedback.color = "error";
-    feedback.visible = true;
+    showFeedback(
+      "Please correct the highlighted fields before continuing.",
+      "error",
+    );
     return;
   }
 
+  // Briefly show the form preparation state
   isSubmitting.value = true;
+  verificationError.value = "";
 
-  // Temporary loading delay
+  await new Promise((resolve) => {
+    setTimeout(resolve, 300);
+  });
+
+  isSubmitting.value = false;
+
+  // Open the first verification dialog
+  showSendVerificationDialog.value = true;
+};
+
+// --------------------------------------------------
+// Send verification code
+// --------------------------------------------------
+
+const handleSendVerificationCode = async () => {
+  if (!formData.mobileNumber) {
+    showFeedback("Please enter a valid mobile number.", "error");
+    return;
+  }
+
+  isSendingCode.value = true;
+  verificationError.value = "";
+
+  /*
+   * Replace this temporary delay with the backend request:
+   *
+   * await authService.sendVerificationCode({
+   *   mobileNumber: formData.mobileNumber,
+   * })
+   */
   await new Promise((resolve) => {
     setTimeout(resolve, 900);
   });
 
-  // Backend integration will replace this message
-  feedback.message =
-    "Registration form is valid and ready for backend integration.";
+  isSendingCode.value = false;
+  showSendVerificationDialog.value = false;
+  showVerificationCodeDialog.value = true;
 
-  feedback.color = "success";
-  feedback.visible = true;
-  isSubmitting.value = false;
+  // Development-only message
+  showFeedback("Verification code sent. Development code: 123456", "success");
+};
+
+// --------------------------------------------------
+// Verify entered code
+// --------------------------------------------------
+
+const handleVerifyCode = async (enteredCode) => {
+  isCodeProcessing.value = true;
+  verificationError.value = "";
+
+  /*
+   * Replace this temporary delay and comparison with:
+   *
+   * await authService.verifyCode({
+   *   mobileNumber: formData.mobileNumber,
+   *   code: enteredCode,
+   * })
+   */
+  await new Promise((resolve) => {
+    setTimeout(resolve, 900);
+  });
+
+  if (enteredCode !== DEVELOPMENT_VERIFICATION_CODE) {
+    verificationError.value =
+      "The verification code is incorrect. Please try again.";
+
+    isCodeProcessing.value = false;
+    return;
+  }
+
+  isCodeProcessing.value = false;
+  showVerificationCodeDialog.value = false;
+
+  showFeedback(
+    "Mobile number verified. Registration is ready for backend integration.",
+    "success",
+  );
+
+  /*
+   * After backend integration, submit the registration data:
+   *
+   * await authService.register({
+   *   ...formData,
+   *   mobileVerified: true,
+   * })
+   *
+   * The backend should then return the unique Member ID.
+   */
+};
+
+// --------------------------------------------------
+// Resend verification code
+// --------------------------------------------------
+
+const handleResendCode = async () => {
+  isCodeProcessing.value = true;
+  verificationError.value = "";
+
+  // Replace with the real resend-code API request
+  await new Promise((resolve) => {
+    setTimeout(resolve, 700);
+  });
+
+  isCodeProcessing.value = false;
+
+  showFeedback(
+    "A new verification code was sent. Development code: 123456",
+    "success",
+  );
+};
+
+// --------------------------------------------------
+// Dialog navigation
+// --------------------------------------------------
+
+// Return from the OTP dialog to the Send Code dialog
+const returnToSendDialog = () => {
+  verificationError.value = "";
+  showVerificationCodeDialog.value = false;
+  showSendVerificationDialog.value = true;
+};
+
+// Close dialogs and focus the mobile-number field
+const focusMobileNumberField = async () => {
+  showSendVerificationDialog.value = false;
+  showVerificationCodeDialog.value = false;
+  verificationError.value = "";
+
+  await nextTick();
+
+  mobileNumberField.value?.focus();
+};
+
+// Edit the phone number from the OTP dialog
+const editMobileNumber = async () => {
+  await focusMobileNumberField();
 };
 </script>
 
