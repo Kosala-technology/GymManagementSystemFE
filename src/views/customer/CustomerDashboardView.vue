@@ -182,9 +182,11 @@ const displayMessage = (text) => {
   showMessage.value = true;
 };
 
-// Workout Schedule button action
+// Navigate to the personalized Workout Schedule page
 const handleWorkoutSchedule = () => {
-  displayMessage("The Workout Schedule page will be added next.");
+  router.push({
+    name: "workout-schedule",
+  });
 };
 
 // Profile button action

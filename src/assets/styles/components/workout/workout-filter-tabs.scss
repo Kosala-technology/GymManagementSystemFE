@@ -1,0 +1,138 @@
+@use "../../variables" as *;
+
+.workout-filter-tabs {
+  padding: 25px 27px;
+  background: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: $radius-large;
+  box-shadow: $shadow-small;
+
+  &__heading {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+
+    h2 {
+      margin: 4px 0 0;
+      color: $text-primary;
+      font-size: 1.32rem;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: $text-muted;
+      font-size: 0.8rem;
+    }
+  }
+
+  &__eyebrow {
+    color: $color-primary;
+    font-size: 0.69rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  // Vuetify button group
+  &__buttons {
+    width: 100%;
+    height: auto !important;
+    padding: 5px;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 7px;
+    background: $background-secondary;
+    border: 1px solid $border-color;
+    border-radius: $radius-medium;
+  }
+
+  &__button {
+    min-height: 45px;
+    padding: 0 14px !important;
+    color: $text-secondary;
+    background: transparent;
+    border: 0 !important;
+    border-radius: 10px !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    transition: $transition-default;
+
+    &:hover {
+      color: $color-primary;
+      background: rgba($color-primary, 0.07);
+    }
+
+    // Vuetify selected button state
+    &.v-btn--active {
+      color: $text-on-primary;
+      background: linear-gradient(135deg, $color-primary, $color-primary-hover);
+      box-shadow: 0 7px 18px rgba($color-primary, 0.22);
+
+      .workout-filter-tabs__count {
+        color: $color-primary;
+        background: $surface-color;
+      }
+    }
+  }
+
+  &__count {
+    min-width: 24px;
+    height: 24px;
+    margin-left: 9px;
+    padding: 0 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-secondary;
+    background: $surface-color;
+    border: 1px solid $border-color;
+    border-radius: $radius-rounded;
+    font-size: 0.67rem;
+    font-weight: 800;
+    transition: $transition-default;
+  }
+}
+
+// Tablet
+@media (max-width: $breakpoint-tablet) {
+  .workout-filter-tabs {
+    &__buttons {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}
+
+// Mobile
+@media (max-width: $breakpoint-mobile) {
+  .workout-filter-tabs {
+    padding: 21px 17px;
+    border-radius: $radius-medium;
+
+    &__heading {
+      margin-bottom: 17px;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 5px;
+
+      h2 {
+        font-size: 1.2rem;
+      }
+    }
+
+    &__buttons {
+      grid-template-columns: 1fr;
+    }
+
+    &__button {
+      width: 100%;
+      justify-content: flex-start;
+
+      .workout-filter-tabs__count {
+        margin-left: auto;
+      }
+    }
+  }
+}

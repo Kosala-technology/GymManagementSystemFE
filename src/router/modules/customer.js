@@ -1,5 +1,6 @@
-// Import the Customer Dashboard page
+// Import customer pages
 import CustomerDashboardView from "../../views/customer/CustomerDashboardView.vue";
+import WorkoutScheduleView from "../../views/customer/WorkoutScheduleView.vue";
 
 // Customer-related route definitions
 const customerRoutes = [
@@ -8,15 +9,23 @@ const customerRoutes = [
     name: "customer-dashboard",
     component: CustomerDashboardView,
 
-    // Route information
     meta: {
       title: "Customer Dashboard | FORWARD FIT",
+      requiresAuth: true,
+    },
+  },
 
-      // This will be used when real authentication is added
+  {
+    path: "/customer/workout-schedule",
+    name: "workout-schedule",
+    component: WorkoutScheduleView,
+
+    meta: {
+      title: "Workout Schedule | FORWARD FIT",
       requiresAuth: true,
     },
   },
 ];
 
-// Export customer routes so the main router can use them
+// Export routes so the main router can use them
 export default customerRoutes;

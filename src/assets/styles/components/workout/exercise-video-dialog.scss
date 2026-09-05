@@ -1,0 +1,243 @@
+@use "../../variables" as *;
+
+.exercise-video-dialog {
+  &__card {
+    overflow: hidden;
+    background: $surface-color;
+    border: 1px solid $border-color;
+    box-shadow: 0 28px 70px rgba($text-primary, 0.22);
+  }
+
+  &__header {
+    padding: 19px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &__heading-content {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    h2 {
+      margin: 3px 0 0;
+      overflow: hidden;
+      color: $text-primary;
+      font-size: 1.15rem;
+      font-weight: 800;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-on-primary;
+    background: linear-gradient(135deg, $color-primary, $color-primary-hover);
+    border-radius: 12px;
+    box-shadow: $shadow-primary;
+  }
+
+  &__eyebrow {
+    color: $color-primary;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__close {
+    flex-shrink: 0;
+    color: $text-muted;
+
+    &:hover {
+      color: $color-primary;
+      background: $background-soft-red;
+    }
+  }
+
+  &__body {
+    padding: 24px !important;
+  }
+
+  // Maintain a responsive 16:9 video ratio
+  &__video-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: $text-primary;
+    border-radius: $radius-medium;
+    aspect-ratio: 16 / 9;
+    box-shadow: $shadow-medium;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: 0;
+    }
+  }
+
+  &__unavailable {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 9px;
+    color: rgba($text-on-primary, 0.72);
+    text-align: center;
+
+    strong {
+      color: $text-on-primary;
+      font-size: 1rem;
+    }
+
+    span {
+      max-width: 340px;
+      font-size: 0.78rem;
+    }
+  }
+
+  &__summary {
+    padding-top: 23px;
+  }
+
+  &__summary-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+
+    span {
+      color: $color-primary;
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h3 {
+      margin: 4px 0 0;
+      color: $text-primary;
+      font-size: 1rem;
+      font-weight: 750;
+    }
+  }
+
+  &__measurements {
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+
+    > div {
+      padding: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: $background-secondary;
+      border: 1px solid $border-color;
+      border-radius: 12px;
+    }
+
+    .v-icon {
+      color: $color-primary;
+    }
+
+    span {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    small {
+      color: $text-muted;
+      font-size: 0.64rem;
+    }
+
+    strong {
+      color: $text-primary;
+      font-size: 0.78rem;
+    }
+  }
+
+  &__notice {
+    padding: 13px 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: $text-secondary;
+    background: rgba($warning-color, 0.08);
+    border: 1px solid rgba($warning-color, 0.18);
+    border-radius: 12px;
+
+    .v-icon {
+      flex-shrink: 0;
+      color: $warning-color;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.75rem;
+      line-height: 1.55;
+    }
+  }
+
+  &__actions {
+    padding: 16px 22px !important;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  &__source-button {
+    box-shadow: $shadow-primary;
+  }
+}
+
+// Mobile dialog
+@media (max-width: $breakpoint-mobile) {
+  .exercise-video-dialog {
+    &__header {
+      padding: 16px;
+    }
+
+    &__heading-content {
+      h2 {
+        max-width: 200px;
+        font-size: 1rem;
+      }
+    }
+
+    &__body {
+      padding: 16px !important;
+    }
+
+    &__summary-heading {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    &__measurements {
+      grid-template-columns: 1fr;
+    }
+
+    &__actions {
+      padding: 14px 16px !important;
+      flex-direction: column-reverse;
+
+      .v-btn {
+        width: 100%;
+      }
+    }
+  }
+}

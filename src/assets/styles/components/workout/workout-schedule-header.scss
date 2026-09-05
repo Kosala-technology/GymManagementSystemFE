@@ -1,0 +1,302 @@
+@use "../../variables" as *;
+
+.workout-schedule-header {
+  position: relative;
+  padding: 25px 30px 32px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      125deg,
+      rgba($color-primary, 0.09),
+      rgba($color-primary, 0.015) 52%
+    ),
+    $surface-color;
+  border: 1px solid $border-color;
+  border-radius: $radius-large;
+  box-shadow: $shadow-medium;
+
+  &__navigation {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &__back-button {
+    margin-left: -12px;
+    color: $text-secondary;
+
+    &:hover {
+      color: $color-primary;
+      background: $background-soft-red;
+    }
+  }
+
+  &__member {
+    padding: 7px 11px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: $text-secondary;
+    background: $surface-color;
+    border: 1px solid $border-color;
+    border-radius: $radius-rounded;
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    .v-icon {
+      color: $color-primary;
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 350px;
+    align-items: center;
+    gap: 45px;
+  }
+
+  &__introduction {
+    h1 {
+      max-width: 620px;
+      margin: 7px 0 12px;
+      color: $text-primary;
+      font-size: clamp(1.8rem, 4vw, 2.65rem);
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      line-height: 1.12;
+    }
+
+    > p {
+      max-width: 650px;
+      margin: 0;
+      color: $text-secondary;
+      font-size: 0.9rem;
+      line-height: 1.65;
+
+      strong {
+        color: $text-primary;
+      }
+    }
+  }
+
+  &__eyebrow {
+    color: $color-primary;
+    font-size: 0.71rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__details {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+  }
+
+  &__detail {
+    min-width: 180px;
+    padding: 11px 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba($surface-color, 0.84);
+    border: 1px solid $border-color;
+    border-radius: $radius-medium;
+
+    &-icon {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: $color-primary;
+      background: $background-soft-red;
+      border-radius: 10px;
+    }
+
+    div {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    small {
+      color: $text-muted;
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+
+    strong {
+      max-width: 145px;
+      overflow: hidden;
+      color: $text-primary;
+      font-size: 0.75rem;
+      font-weight: 750;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  // Progress card
+  &__progress-card {
+    padding: 23px;
+    background: rgba($surface-color, 0.94);
+    border: 1px solid $border-color;
+    border-radius: $radius-large;
+    box-shadow: $shadow-small;
+  }
+
+  &__progress-heading {
+    margin-bottom: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+      color: $text-secondary;
+      font-size: 0.78rem;
+      font-weight: 650;
+    }
+
+    strong {
+      color: $color-primary;
+      font-size: 1.35rem;
+      font-weight: 850;
+    }
+  }
+
+  &__progress-bar {
+    margin-bottom: 19px;
+  }
+
+  &__progress-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    strong {
+      color: $text-primary;
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    span {
+      color: $text-muted;
+      font-size: 0.64rem;
+    }
+  }
+
+  &__summary-divider {
+    width: 1px;
+    height: 30px;
+    flex: 0 0 1px !important;
+    background: $border-color;
+  }
+
+  &__encouragement {
+    margin-top: 18px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $color-primary-hover;
+    background: $background-soft-red;
+    border-radius: 11px;
+    font-size: 0.7rem;
+    font-weight: 650;
+
+    .v-icon {
+      flex-shrink: 0;
+    }
+  }
+
+  &__decoration {
+    position: absolute;
+    right: -35px;
+    bottom: -55px;
+    color: rgba($color-primary, 0.035);
+    font-size: 235px;
+    transform: rotate(-7deg);
+  }
+}
+
+// Tablet
+@media (max-width: $breakpoint-tablet) {
+  .workout-schedule-header {
+    &__content {
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+
+    &__progress-card {
+      max-width: 500px;
+    }
+  }
+}
+
+// Mobile
+@media (max-width: $breakpoint-mobile) {
+  .workout-schedule-header {
+    padding: 18px 18px 24px;
+    border-radius: $radius-medium;
+
+    &__navigation {
+      margin-bottom: 19px;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    &__back-button {
+      margin-left: -10px;
+    }
+
+    &__member {
+      align-self: flex-start;
+    }
+
+    &__introduction {
+      h1 {
+        font-size: 1.75rem;
+      }
+    }
+
+    &__details {
+      flex-direction: column;
+    }
+
+    &__detail {
+      width: 100%;
+
+      strong {
+        max-width: none;
+      }
+    }
+
+    &__progress-card {
+      padding: 19px 16px;
+    }
+
+    &__decoration {
+      display: none;
+    }
+  }
+}
+

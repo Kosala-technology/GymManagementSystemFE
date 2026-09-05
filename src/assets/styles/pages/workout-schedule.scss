@@ -1,0 +1,150 @@
+@use "../variables" as *;
+
+.workout-schedule-page {
+  min-height: 100vh;
+  color: $text-primary;
+  background:
+    radial-gradient(
+      circle at 92% 15%,
+      rgba($color-primary, 0.055),
+      transparent 23%
+    ),
+    $background-secondary;
+
+  &__main {
+    padding: 34px 0 58px;
+  }
+
+  &__container {
+    width: min(100% - 48px, $container-max-width);
+    margin: 0 auto;
+  }
+
+  &__filters {
+    margin-top: 30px;
+  }
+
+  &__results-heading {
+    margin: 29px 0 14px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 25px;
+
+    > div > span {
+      color: $color-primary;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 3px 0 0;
+      color: $text-primary;
+      font-size: 1.32rem;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: $text-muted;
+      font-size: 0.75rem;
+    }
+  }
+
+  &__grid {
+    align-items: stretch;
+
+    // Make every Vuetify column/card equal height
+    > .v-col {
+      display: flex;
+
+      > * {
+        width: 100%;
+      }
+    }
+  }
+
+  // Empty filter result
+  &__empty-state {
+    padding: 52px 24px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: $text-secondary;
+    background: $surface-color;
+    border: 1px dashed $border-color-dark;
+    text-align: center;
+    box-shadow: $shadow-small;
+
+    h3 {
+      margin: 16px 0 7px;
+      color: $text-primary;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    p {
+      max-width: 430px;
+      margin: 0 0 20px;
+      color: $text-muted;
+      font-size: 0.8rem;
+      line-height: 1.55;
+    }
+  }
+
+  &__empty-icon {
+    width: 74px;
+    height: 74px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-primary;
+    background: $background-soft-red;
+    border-radius: 22px;
+  }
+
+  &__feedback {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+}
+
+// Tablet layout
+@media (max-width: $breakpoint-tablet) {
+  .workout-schedule-page {
+    &__container {
+      width: min(100% - 32px, $container-max-width);
+    }
+  }
+}
+
+// Mobile layout
+@media (max-width: $breakpoint-mobile) {
+  .workout-schedule-page {
+    &__main {
+      padding: 24px 0 42px;
+    }
+
+    &__container {
+      width: calc(100% - 24px);
+    }
+
+    &__filters {
+      margin-top: 22px;
+    }
+
+    &__results-heading {
+      margin-top: 23px;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    &__empty-state {
+      padding: 40px 18px;
+    }
+  }
+}
