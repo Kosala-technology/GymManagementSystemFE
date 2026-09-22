@@ -1,0 +1,138 @@
+@use "../../variables" as *;
+
+.admin-announcements {
+  min-width: 0;
+
+  &__heading {
+    margin-bottom: 24px;
+
+    h2 {
+      margin: 0 0 8px;
+      color: $text-primary;
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: $text-secondary;
+      line-height: 1.6;
+    }
+  }
+
+  &__notice {
+    margin-bottom: 22px;
+  }
+
+  &__history {
+    margin-top: 30px;
+  }
+
+  &__history-heading,
+  &__record-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    h3,
+    h4 {
+      margin: 0;
+      color: $text-primary;
+    }
+  }
+
+  &__history-heading {
+    margin-bottom: 18px;
+
+    span {
+      color: $text-secondary;
+      font-size: 0.8rem;
+    }
+  }
+
+  &__record {
+    margin-bottom: 16px;
+    padding: 22px;
+    border: 1px solid $border-color;
+    box-shadow: $shadow-small;
+  }
+
+  &__record-heading {
+    align-items: flex-start;
+
+    h4 {
+      font-size: 1rem;
+      overflow-wrap: anywhere;
+    }
+
+    .v-chip {
+      flex-shrink: 0;
+    }
+  }
+
+  &__message {
+    margin: 16px 0;
+    color: $text-primary;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  &__metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    color: $text-secondary;
+    font-size: 0.75rem;
+  }
+
+  &__recipients {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid $border-color;
+
+    summary {
+      color: $color-primary;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+
+      &:focus-visible {
+        outline: 2px solid $color-primary;
+        outline-offset: 4px;
+      }
+    }
+
+    ul {
+      margin: 12px 0 0;
+      padding-left: 20px;
+      color: $text-secondary;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  &__empty {
+    padding: 30px 18px;
+    color: $text-secondary;
+    background: $background-secondary;
+    border-radius: $radius-medium;
+    text-align: center;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .admin-announcements {
+    &__record {
+      padding: 18px;
+    }
+
+    &__record-heading {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+}

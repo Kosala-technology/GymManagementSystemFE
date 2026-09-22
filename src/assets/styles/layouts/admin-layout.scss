@@ -1,0 +1,36 @@
+@use "../variables" as *;
+
+.admin-layout {
+  min-height: 100vh;
+  min-height: 100dvh;
+  color: $text-primary;
+  background: $background-primary;
+
+  &__main {
+    min-width: 0;
+  }
+
+  &__content {
+    width: 100%;
+    max-width: 1600px;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 28px;
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .admin-layout {
+    &__content {
+      padding: 22px 18px;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .admin-layout {
+    &__content {
+      padding: 20px 14px;
+    }
+  }
+}

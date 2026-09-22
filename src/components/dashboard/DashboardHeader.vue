@@ -19,23 +19,8 @@
 
       <!-- Right-side header actions -->
       <div class="dashboard-header__actions">
-        <!-- Notification button -->
-        <v-btn
-          icon
-          variant="text"
-          class="dashboard-header__notification"
-          aria-label="View notifications"
-        >
-          <v-badge
-            color="primary"
-            dot
-            location="top end"
-            offset-x="3"
-            offset-y="3"
-          >
-            <v-icon icon="mdi-bell-outline" size="24" />
-          </v-badge>
-        </v-btn>
+        <!-- Customer-specific announcement notifications -->
+        <AnnouncementNotification :member-id="memberId" />
 
         <!-- Customer account menu -->
         <v-menu location="bottom end" :offset="10">
@@ -101,6 +86,7 @@
 
 <script setup>
 import { computed } from "vue";
+import AnnouncementNotification from "./AnnouncementNotification.vue";
 
 // Information received from the parent dashboard page
 const props = defineProps({

@@ -1,0 +1,170 @@
+@use "../../variables" as *;
+
+.admin-customers {
+  min-width: 0;
+
+  &__heading {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    h2 {
+      margin: 0 0 7px;
+      color: $text-primary;
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: $text-secondary;
+      line-height: 1.6;
+    }
+  }
+
+  &__search {
+    margin-bottom: 22px;
+    padding: 20px;
+    border: 1px solid $border-color;
+    box-shadow: $shadow-small;
+
+    p {
+      margin: 12px 0 0;
+      color: $text-secondary;
+      font-size: 0.8rem;
+    }
+  }
+
+  &__table-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid $border-color;
+    box-shadow: $shadow-small;
+
+    :deep(table) {
+      min-width: 850px;
+    }
+
+    :deep(thead th) {
+      background: $background-secondary;
+      color: $text-secondary;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    :deep(tbody td) {
+      padding-top: 14px;
+      padding-bottom: 14px;
+      font-size: 0.82rem;
+    }
+  }
+
+  &__caption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  &__identity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    strong {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .v-avatar {
+      flex-shrink: 0;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+  }
+
+  &__empty {
+    padding: 35px 18px !important;
+    color: $text-secondary;
+    text-align: center;
+  }
+
+  &__dialog-heading {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 750;
+    }
+  }
+
+  &__profile {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    h3 {
+      margin: 0 0 5px;
+      font-size: 1.15rem;
+    }
+
+    p {
+      margin: 0;
+      color: $text-secondary;
+      font-size: 0.8rem;
+    }
+
+    .v-avatar {
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+  }
+
+  &__details {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+
+    dt {
+      margin-bottom: 5px;
+      color: $text-secondary;
+      font-size: 0.75rem;
+    }
+
+    dd {
+      margin: 0;
+      color: $text-primary;
+      font-size: 0.88rem;
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .admin-customers {
+    &__heading {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    &__search {
+      padding: 16px;
+    }
+
+    &__details {
+      grid-template-columns: 1fr;
+    }
+  }
+}

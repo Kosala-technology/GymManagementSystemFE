@@ -1,0 +1,144 @@
+@use "../../variables" as *;
+
+.admin-payments {
+  min-width: 0;
+
+  &__heading {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    h2 {
+      margin: 0 0 7px;
+      color: $text-primary;
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: $text-secondary;
+      line-height: 1.6;
+    }
+  }
+
+  &__filters,
+  &__summary-card,
+  &__table-card {
+    border: 1px solid $border-color;
+    box-shadow: $shadow-small;
+  }
+
+  &__filters {
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  &__summary-card {
+    height: 100%;
+    padding: 20px;
+
+    span {
+      display: block;
+      color: $text-secondary;
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    strong {
+      display: block;
+      margin-top: 9px;
+      color: $text-primary;
+      font-size: 1.35rem;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  &__result-count {
+    margin: 22px 0 12px;
+    color: $text-secondary;
+    font-size: 0.8rem;
+  }
+
+  &__table-card {
+    min-width: 0;
+    overflow: hidden;
+
+    :deep(table) {
+      min-width: 1050px;
+    }
+
+    :deep(thead th) {
+      background: $background-secondary;
+      color: $text-secondary;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    :deep(tbody td) {
+      padding-top: 14px;
+      padding-bottom: 14px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+  }
+
+  &__empty {
+    padding: 32px 16px !important;
+    color: $text-secondary;
+    text-align: center;
+  }
+
+  &__dialog-heading {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    h2 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+  }
+
+  &__details {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+
+    dt {
+      margin-bottom: 5px;
+      color: $text-secondary;
+      font-size: 0.75rem;
+    }
+
+    dd {
+      margin: 0;
+      color: $text-primary;
+      font-size: 0.88rem;
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .admin-payments {
+    &__heading {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    &__filters {
+      padding: 16px;
+    }
+
+    &__details {
+      grid-template-columns: 1fr;
+    }
+  }
+}

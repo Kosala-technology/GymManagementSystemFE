@@ -1,0 +1,145 @@
+@use "../../variables" as *;
+
+.admin-schedules {
+  min-width: 0;
+
+  &__heading,
+  &__section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &__heading {
+    margin-bottom: 24px;
+
+    h2 {
+      margin: 0 0 7px;
+      color: $text-primary;
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: $text-secondary;
+      line-height: 1.6;
+    }
+  }
+
+  &__notice {
+    margin-bottom: 24px;
+  }
+
+  &__section {
+    margin-bottom: 28px;
+  }
+
+  &__section-heading {
+    margin-bottom: 18px;
+
+    h3 {
+      margin: 0;
+      color: $text-primary;
+      font-size: 1.1rem;
+    }
+
+    > span {
+      color: $text-secondary;
+      font-size: 0.8rem;
+    }
+  }
+
+  &__table-card,
+  &__builder {
+    border: 1px solid $border-color;
+    box-shadow: $shadow-small;
+  }
+
+  &__table-card {
+    overflow: hidden;
+
+    :deep(table) {
+      min-width: 600px;
+    }
+
+    :deep(thead th) {
+      background: $background-secondary;
+      color: $text-secondary;
+      font-weight: 700;
+    }
+  }
+
+  &__builder {
+    padding: 24px;
+  }
+
+  &__divider {
+    margin: 8px 0 24px;
+  }
+
+  &__picker {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__hint {
+    margin: 12px 0 22px;
+    color: $text-secondary;
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  &__exercise-list {
+    display: grid;
+    gap: 18px;
+  }
+
+  &__empty {
+    margin: 0;
+    padding: 32px 20px;
+    color: $text-secondary;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  &__save-row {
+    margin-top: 24px;
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid $border-color;
+
+    > span {
+      color: $text-secondary;
+      font-size: 0.82rem;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .admin-schedules {
+    &__heading {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    &__builder {
+      padding: 16px;
+    }
+
+    &__picker {
+      grid-template-columns: 1fr;
+    }
+
+    &__save-row {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+}

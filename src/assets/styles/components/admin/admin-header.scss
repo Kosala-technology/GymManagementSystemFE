@@ -1,0 +1,163 @@
+// Reuse the existing Forward Fit design variables.
+@use "../../variables" as *;
+
+.admin-header {
+  color: $text-primary;
+  background: $surface-color;
+  border-bottom: 1px solid $border-color;
+
+  &__content {
+    width: 100%;
+    min-width: 0;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &__left {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__menu-button {
+    flex-shrink: 0;
+    color: $text-secondary;
+
+    &:hover {
+      color: $color-primary;
+      background: $background-soft-red;
+    }
+  }
+
+  &__heading {
+    min-width: 0;
+
+    > span {
+      display: block;
+      margin-bottom: 3px;
+      color: $text-secondary;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      overflow: hidden;
+      color: $text-primary;
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.3;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__actions {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__website-button {
+    color: $text-secondary;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    &:hover {
+      color: $color-primary;
+      background: $background-soft-red;
+    }
+  }
+
+  &__account {
+    min-width: 0;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-left: 1px solid $border-color;
+
+    .v-avatar {
+      flex-shrink: 0;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+  }
+
+  &__account-text {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    strong {
+      max-width: 150px;
+      overflow: hidden;
+      color: $text-primary;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    small {
+      color: $text-secondary;
+      font-size: 0.68rem;
+    }
+  }
+
+  &__menu-button,
+  &__website-button {
+    &:focus-visible {
+      outline: 2px solid $color-primary;
+      outline-offset: 2px;
+    }
+  }
+}
+
+// Smaller screens: reserve space for the page title.
+@media (max-width: $breakpoint-tablet) {
+  .admin-header {
+    &__content {
+      padding: 0 18px;
+      gap: 12px;
+    }
+
+    &__website-button {
+      display: none;
+    }
+
+    &__account {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+}
+
+// Mobile: keep the avatar and hide the longer account text.
+@media (max-width: $breakpoint-mobile) {
+  .admin-header {
+    &__content {
+      padding: 0 12px;
+    }
+
+    &__left {
+      gap: 6px;
+    }
+
+    &__heading h1 {
+      font-size: 1rem;
+    }
+
+    &__account-text {
+      display: none;
+    }
+  }
+}

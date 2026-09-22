@@ -1,0 +1,74 @@
+@use "../../variables" as *;
+
+.exercise-form {
+  border: 1px solid $border-color;
+
+  &__heading {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    span {
+      color: $color-primary;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 5px 0 0;
+      color: $text-primary;
+      font-size: 1.25rem;
+      font-weight: 750;
+    }
+  }
+
+  &__video-note {
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: $background-secondary;
+    border: 1px dashed $border-color-dark;
+    border-radius: $radius-medium;
+
+    .v-icon {
+      flex-shrink: 0;
+      color: $text-secondary;
+    }
+
+    strong {
+      color: $text-primary;
+      font-size: 0.85rem;
+    }
+
+    p {
+      margin: 5px 0 0;
+      color: $text-secondary;
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+  }
+
+  &__actions {
+    padding: 16px 24px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .exercise-form {
+    &__heading {
+      padding: 16px;
+    }
+
+    &__actions {
+      padding: 16px;
+    }
+  }
+}

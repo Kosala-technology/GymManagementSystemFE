@@ -1,0 +1,108 @@
+@use "../variables" as *;
+
+.customer-announcements {
+  margin-top: 30px;
+
+  &__heading {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    > div > span {
+      color: $color-primary;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 5px 0 0;
+      color: $text-primary;
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 16px;
+  }
+
+  &__card {
+    padding: 22px;
+    background: $surface-color;
+    border: 1px solid $border-color;
+    box-shadow: $shadow-small;
+  }
+
+  &__card-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    > div {
+      min-width: 0;
+    }
+
+    h3 {
+      margin: 0 0 6px;
+      color: $text-primary;
+      font-size: 1rem;
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+
+    time {
+      color: $text-secondary;
+      font-size: 0.73rem;
+    }
+  }
+
+  &__icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-primary;
+    background: $background-soft-red;
+    border-radius: 12px;
+  }
+
+  &__message {
+    margin: 16px 0 0;
+    color: $text-primary;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  &__empty {
+    margin: 0;
+    padding: 28px 20px;
+    color: $text-secondary;
+    background: $surface-color;
+    border: 1px dashed $border-color-dark;
+    border-radius: $radius-medium;
+    text-align: center;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .customer-announcements {
+    &__heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    &__card {
+      padding: 18px;
+    }
+  }
+}

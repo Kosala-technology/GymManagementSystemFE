@@ -130,10 +130,11 @@ import WorkoutFilterTabs from "../../components/workout/WorkoutFilterTabs.vue";
 import DailyScheduleCard from "../../components/workout/DailyScheduleCard.vue";
 
 import {
-  sampleDailySchedules,
   sampleWorkoutCustomer,
   workoutFilterOptions,
 } from "../../data/sampleWorkouts.js";
+
+import { loadCustomerAssignments } from "../../data/customerAssignments.js";
 
 const router = useRouter();
 
@@ -142,15 +143,9 @@ const customer = sampleWorkoutCustomer;
 const exerciseStatusStorageKey = "forwardFitExerciseStatuses";
 
 // Create an editable copy of schedules and nested exercises
-const schedules = ref(
-  sampleDailySchedules.map((schedule) => ({
-    ...schedule,
-
-    exercises: schedule.exercises.map((exercise) => ({
-      ...exercise,
-    })),
-  })),
-);
+// Load only assignments belonging to the current demo customer.
+const assignmentData = loadCustomerAssignments(customer.id);
+const schedules = ref(assignmentData.schedules);
 
 const selectedFilter = ref("all");
 
@@ -333,6 +328,18 @@ const handleLogout = async () => {
 
 // Load completion progress when the page opens
 onMounted(() => {
+  if (assignmentData.error) {
+    feedback.value = {
+      visible: true,
+      message: assignmentData.error,
+      color: "error",
+      icon: "mdi-alert-circle-outline",
+    };
+
+    return;
+  }
+
+  // Apply the customer's previously saved exercise progress.
   loadExerciseStatuses();
 });
 </script>

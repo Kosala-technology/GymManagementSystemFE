@@ -107,11 +107,15 @@
         </section>
 
         <!-- Dashboard navigation shortcuts -->
+        <!-- Existing dashboard shortcuts -->
         <QuickActions
           @workout-schedule="handleWorkoutSchedule"
           @profile="handleProfile"
           @logout="handleLogout"
         />
+
+        <!-- Announcements addressed to this member -->
+        <CustomerAnnouncements :member-id="customer.memberId" />
       </div>
     </main>
 
@@ -145,6 +149,7 @@ import DashboardHeader from "../../components/dashboard/DashboardHeader.vue";
 import MemberProfileCard from "../../components/dashboard/MemberProfileCard.vue";
 import DashboardInfoCard from "../../components/dashboard/DashboardInfoCard.vue";
 import QuickActions from "../../components/dashboard/QuickActions.vue";
+import CustomerAnnouncements from "../../components/dashboard/CustomerAnnouncements.vue";
 
 // Access Vue Router for page navigation
 const router = useRouter();

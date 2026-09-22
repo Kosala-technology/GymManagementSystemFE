@@ -226,10 +226,9 @@ import DashboardHeader from "../../components/dashboard/DashboardHeader.vue";
 import ExercisePlayer from "../../components/workout/ExercisePlayer.vue";
 import ExerciseQueue from "../../components/workout/ExerciseQueue.vue";
 
-import {
-  sampleDailySchedules,
-  sampleWorkoutCustomer,
-} from "../../data/sampleWorkouts.js";
+import { sampleWorkoutCustomer } from "../../data/sampleWorkouts.js";
+
+import { loadCustomerAssignments } from "../../data/customerAssignments.js";
 
 const route = useRoute();
 const router = useRouter();
@@ -240,15 +239,9 @@ const customer = sampleWorkoutCustomer;
 const exerciseStatusStorageKey = "forwardFitExerciseStatuses";
 
 // Create an editable copy of daily schedules and exercises
-const schedules = ref(
-  sampleDailySchedules.map((schedule) => ({
-    ...schedule,
-
-    exercises: schedule.exercises.map((exercise) => ({
-      ...exercise,
-    })),
-  })),
-);
+// Only this customer's assignments can appear in the demo session.
+const assignmentData = loadCustomerAssignments(customer.id);
+const schedules = ref(assignmentData.schedules);
 
 const currentExerciseIndex = ref(0);
 
@@ -490,6 +483,17 @@ const handleLogout = async () => {
 };
 
 onMounted(() => {
+  if (assignmentData.error) {
+    feedback.value = {
+      visible: true,
+      message: assignmentData.error,
+      color: "error",
+      icon: "mdi-alert-circle-outline",
+    };
+
+    return;
+  }
+
   loadExerciseStatuses();
   selectFirstPendingExercise();
 });

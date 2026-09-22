@@ -1,0 +1,79 @@
+@use "../../variables" as *;
+
+.announcement-form {
+  padding: 24px;
+  background: $surface-color;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-small;
+
+  &__heading {
+    margin-bottom: 26px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+
+    h2 {
+      margin: 0 0 6px;
+      color: $text-primary;
+      font-size: 1.2rem;
+      font-weight: 750;
+    }
+
+    p {
+      margin: 0;
+      color: $text-secondary;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+  }
+
+  &__icon {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-primary;
+    background: $background-soft-red;
+    border-radius: 12px;
+  }
+
+  &__summary {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $text-primary;
+    background: $background-secondary;
+    border: 1px solid $border-color;
+    border-radius: $radius-medium;
+    font-size: 0.85rem;
+
+    .v-icon {
+      color: $color-primary;
+    }
+  }
+
+  &__note {
+    margin: 14px 0 22px;
+    color: $text-secondary;
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .announcement-form {
+    padding: 18px;
+
+    &__actions .v-btn {
+      width: 100%;
+    }
+  }
+}

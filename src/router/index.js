@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import homeRoutes from "./modules/home";
 import authRoutes from "./modules/auth";
 import customerRoutes from "./modules/customer";
+import adminRoutes from "./modules/admin";
 
 // Create the application router
 const router = createRouter({
@@ -12,7 +13,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
 
   // Combine all application route modules
-  routes: [...homeRoutes, ...authRoutes, ...customerRoutes],
+  routes: [...homeRoutes, ...authRoutes, ...customerRoutes, ...adminRoutes],
 
   // Return the page to the top after navigation
   scrollBehavior() {
