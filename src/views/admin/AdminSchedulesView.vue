@@ -19,8 +19,7 @@
     </v-alert>
 
     <v-alert v-else type="info" variant="tonal" class="admin-schedules__notice">
-      Templates are saved in this browser. Saving a template does not assign it
-      to a customer.
+      Templates are saved in this browser.
     </v-alert>
 
     <!-- Saved templates -->
