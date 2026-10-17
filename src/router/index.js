@@ -6,6 +6,7 @@ import homeRoutes from "./modules/home";
 import authRoutes from "./modules/auth";
 import customerRoutes from "./modules/customer";
 import adminRoutes from "./modules/admin";
+import api from "../services/api";
 
 // Create the application router
 const router = createRouter({
@@ -24,37 +25,45 @@ const router = createRouter({
   },
 });
 
-// Run before every page navigation
-router.beforeEach((to) => {
-  // Check both storage locations because Remember Me is optional
-  const localAuthentication =
-    localStorage.getItem("forwardFitCustomerAuthenticated") === "true";
+router.beforeEach(async (to) => {
+  // Step 1: Allow public pages without an authentication check
+  if (!to.meta.requiresAuth && !to.meta.guestOnly) {
+    return true;
+  }
 
-  const sessionAuthentication =
-    sessionStorage.getItem("forwardFitCustomerAuthenticated") === "true";
+  let authenticatedUser = null;
 
-  const isCustomerAuthenticated = localAuthentication || sessionAuthentication;
+  // Step 2: Check Laravel authentication session
+  try {
+    const response = await api.get("/api/user");
 
-  // Prevent unauthenticated users from opening protected pages
-  if (to.meta.requiresAuth && !isCustomerAuthenticated) {
+    authenticatedUser = response.data;
+  } catch (error) {
+    // 401 means the user is not authenticated
+    if (error.response?.status !== 401) {
+      console.error("Authentication check failed:", error);
+    }
+  }
+
+  // Step 3: Protect customer pages
+  if (to.meta.requiresAuth && !authenticatedUser) {
     return {
       name: "login",
-
-      // Remember the page the customer originally requested
       query: {
         redirect: to.fullPath,
       },
     };
   }
 
-  // Prevent logged-in customers from returning to Login/Register pages
-  if (to.meta.guestOnly && isCustomerAuthenticated) {
+  // Step 4: Redirect authenticated users away
+  // from Login and Registration pages
+  if (to.meta.guestOnly && authenticatedUser) {
     return {
       name: "customer-dashboard",
     };
   }
 
-  // Allow the requested navigation
+  // Step 5: Allow navigation
   return true;
 });
 

@@ -320,28 +320,6 @@
     </div>
   </v-card>
 
-  <!-- Ask the customer to confirm and send the SMS code -->
-  <SendVerificationDialog
-    v-model="showSendVerificationDialog"
-    :phone-number="formData.mobileNumber"
-    :loading="isSendingCode"
-    @send="handleSendVerificationCode"
-    @edit="focusMobileNumberField"
-  />
-
-  <!-- Allow the customer to enter the received SMS code -->
-  <VerificationCodeDialog
-    v-model="showVerificationCodeDialog"
-    :phone-number="formData.mobileNumber"
-    :loading="isCodeProcessing"
-    :error-message="verificationError"
-    :resend-delay="60"
-    @verify="handleVerifyCode"
-    @resend="handleResendCode"
-    @back="returnToSendDialog"
-    @edit="editMobileNumber"
-  />
-
   <!-- Development feedback -->
   <v-snackbar
     v-model="feedback.visible"
@@ -364,6 +342,8 @@ import { nextTick, reactive, ref } from "vue";
 // Import the reusable verification dialogs
 import SendVerificationDialog from "./dialogs/SendVerificationDialog.vue";
 import VerificationCodeDialog from "./dialogs/VerificationCodeDialog.vue";
+// Laravel Backend API Connection
+import api from "../../services/api";
 
 // Temporary code used only for frontend testing
 // Replace this with backend verification later
@@ -410,6 +390,32 @@ const formData = reactive({
   confirmPassword: "",
   acceptTerms: false,
 });
+
+// Prepare registration details for Laravel Backend
+const buildRegistrationPayload = () => {
+  // Remove spaces and hyphens from phone number
+  const rawPhone = formData.mobileNumber.trim().replace(/[\s-]/g, "");
+
+  // Normalize Sri Lankan phone numbers
+  const phone = /^0\d{9}$/.test(rawPhone)
+    ? `+94${rawPhone.slice(1)}`
+    : /^94\d{9}$/.test(rawPhone)
+      ? `+${rawPhone}`
+      : rawPhone;
+
+  return {
+    first_name: formData.firstName.trim(),
+    last_name: formData.lastName.trim(),
+    email: formData.email.trim(),
+    phone: phone,
+    date_of_birth: formData.dateOfBirth,
+    gender: formData.gender,
+    fitness_goal: formData.fitnessGoal,
+    password: formData.password,
+    password_confirmation: formData.confirmPassword,
+    terms_accepted: formData.acceptTerms,
+  };
+};
 
 // Snackbar feedback information
 const feedback = reactive({
@@ -514,7 +520,7 @@ const showPolicyMessage = (policyName) => {
 // --------------------------------------------------
 
 const handleRegistration = async () => {
-  // Validate all registration fields
+  // Step 1: Validate registration form
   const validationResult = await registrationForm.value.validate();
 
   if (!validationResult.valid) {
@@ -525,18 +531,56 @@ const handleRegistration = async () => {
     return;
   }
 
-  // Briefly show the form preparation state
+  // Step 2: Start loading
   isSubmitting.value = true;
-  verificationError.value = "";
 
-  await new Promise((resolve) => {
-    setTimeout(resolve, 300);
-  });
+  try {
+    // Step 3: Get CSRF cookie from Laravel
+    await api.get("/sanctum/csrf-cookie");
 
-  isSubmitting.value = false;
+    // Step 4: Prepare registration data
+    const registrationData = buildRegistrationPayload();
 
-  // Open the first verification dialog
-  showSendVerificationDialog.value = true;
+    // Step 5: Send registration data to Laravel
+    const response = await api.post("/api/register", registrationData);
+
+    // Step 6: Show successful registration message
+    const memberId = response.data.member_id;
+
+    showFeedback(
+      `Registration successful! Your Member ID is ${memberId}. You can now login.`,
+      "success",
+    );
+
+    console.log("Registration successful");
+
+    // Phone verification is not implemented yet.
+    // The backend keeps phone_verified_at as null.
+  } catch (error) {
+    // Step 7: Handle registration errors
+    if (error.response?.status === 422) {
+      const errors = error.response.data.errors;
+
+      const firstError = errors ? Object.values(errors).flat()[0] : null;
+
+      showFeedback(
+        firstError || "Please check your registration details.",
+        "error",
+      );
+    } else if (error.response?.status === 419) {
+      showFeedback("Session expired. Please try again.", "error");
+    } else {
+      showFeedback(
+        "Registration failed. Please check your connection.",
+        "error",
+      );
+    }
+
+    console.error("Registration request failed:", error.message);
+  } finally {
+    // Step 8: Stop loading
+    isSubmitting.value = false;
+  }
 };
 
 // --------------------------------------------------

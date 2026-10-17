@@ -142,7 +142,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 import DashboardHeader from "../../components/dashboard/DashboardHeader.vue";
@@ -150,22 +150,21 @@ import MemberProfileCard from "../../components/dashboard/MemberProfileCard.vue"
 import DashboardInfoCard from "../../components/dashboard/DashboardInfoCard.vue";
 import QuickActions from "../../components/dashboard/QuickActions.vue";
 import CustomerAnnouncements from "../../components/dashboard/CustomerAnnouncements.vue";
+import api from "../../services/api";
 
 // Access Vue Router for page navigation
 const router = useRouter();
 
-// Temporary customer information
-// This object can later be replaced with data received from the backend API
 const customer = reactive({
-  name: "Kosala Lakshan",
+  name: "Loading...",
   profileImage: "",
-  memberId: "FF-2026-00124",
-  membershipType: "Premium Membership",
-  membershipStatus: "Active",
-  fitnessGoal: "Build Muscle",
-  assignedTrainer: "Daniel Perera",
-  nextWorkoutDate: "08 September 2026",
-  nextWorkoutTime: "Monday at 6:30 PM",
+  memberId: "Loading...",
+  membershipType: "Not assigned",
+  membershipStatus: "Not available",
+  fitnessGoal: "Loading...",
+  assignedTrainer: "Not assigned",
+  nextWorkoutDate: "Not scheduled",
+  nextWorkoutTime: "No upcoming workout",
 });
 
 // Snackbar state
@@ -187,6 +186,38 @@ const displayMessage = (text) => {
   showMessage.value = true;
 };
 
+// Load logged-in customer details from Laravel Backend
+onMounted(async () => {
+  try {
+    // Step 1: Request authenticated user details
+    const response = await api.get("/api/user");
+
+    // Step 2: Get user and customer profile
+    const user = response.data;
+    const profile = user.customer_profile;
+
+    // Step 3: Update dashboard with real database data
+    customer.name = user.name || "Member";
+
+    customer.memberId = profile?.member_id || "Not assigned";
+
+    customer.fitnessGoal = profile?.fitness_goal || "Not set";
+
+    console.log("Customer profile loaded successfully");
+  } catch (error) {
+    console.error("Failed to load customer details:", error);
+
+    if (error.response?.status === 401) {
+      // Redirect if session has expired
+      await router.replace({ name: "login" });
+    } else {
+      displayMessage(
+        "Unable to load customer details. Please refresh the page.",
+      );
+    }
+  }
+});
+
 // Navigate to the personalized Workout Schedule page
 const handleWorkoutSchedule = () => {
   router.push({
@@ -206,15 +237,26 @@ const handleTrainer = () => {
   );
 };
 
-// Logout the currently authenticated customer
 const handleLogout = async () => {
-  // Remove authentication from both storage locations
-  localStorage.removeItem("forwardFitCustomerAuthenticated");
+  try {
+    // Step 1: Request logout from Laravel Backend
+    await api.post("/api/logout");
 
-  sessionStorage.removeItem("forwardFitCustomerAuthenticated");
+    // Step 2: Remove old temporary authentication data
+    localStorage.removeItem("forwardFitCustomerAuthenticated");
+    sessionStorage.removeItem("forwardFitCustomerAuthenticated");
 
-  // Redirect the customer to the Login page
-  await router.replace({ name: "login" });
+    localStorage.removeItem("forwardFitMemberIdentifier");
+    sessionStorage.removeItem("forwardFitMemberIdentifier");
+
+    // Step 3: Redirect to Login page
+    await router.replace({ name: "login" });
+  } catch (error) {
+    console.error("Logout failed:", error);
+
+    // Do not redirect if the backend session is still active
+    displayMessage("Unable to logout. Please try again.");
+  }
 };
 </script>
 

@@ -168,6 +168,8 @@ import { useRouter } from "vue-router";
 import SendVerificationDialog from "./dialogs/SendVerificationDialog.vue";
 import VerificationCodeDialog from "./dialogs/VerificationCodeDialog.vue";
 
+import api from "../../services/api";
+
 // Access Vue Router
 const router = useRouter();
 
@@ -243,11 +245,10 @@ const handleForgotPassword = () => {
   feedback.visible = true;
 };
 
-// Validate the login information
 const handleLogin = async () => {
+  // Step 1: Validate form details
   const validationResult = await loginForm.value.validate();
 
-  // Stop when form validation fails
   if (!validationResult.valid) {
     feedback.message =
       "Please correct the highlighted fields before continuing.";
@@ -259,16 +260,49 @@ const handleLogin = async () => {
 
   isSubmitting.value = true;
 
-  // Temporary delay that represents the Login API request
-  await new Promise((resolve) => {
-    setTimeout(resolve, 800);
-  });
+  try {
+    // Step 2: Get CSRF cookie from Laravel
+    await api.get("/sanctum/csrf-cookie");
 
-  isSubmitting.value = false;
-  verificationError.value = "";
+    // Step 3: Send login details to Laravel
+    const response = await api.post("/api/login", {
+      memberIdentifier: formData.memberIdentifier,
+      password: formData.password,
+      rememberMe: formData.rememberMe,
+    });
 
-  // After successful login, request verification
-  showSendVerificationDialog.value = true;
+    // Step 4: Show successful login message
+    feedback.message = `Login successful. Welcome, ${response.data.user.name}!`;
+
+    feedback.color = "success";
+    feedback.visible = true;
+
+    console.log("Login successful");
+
+    // Redirect to Customer Dashboard after successful login
+    await router.push({
+      name: "customer-dashboard",
+    });
+  } catch (error) {
+    // Step 5: Handle login errors
+    if (error.response?.status === 401) {
+      feedback.message = "Invalid email, member ID or password.";
+    } else if (error.response?.status === 419) {
+      feedback.message = "Session expired. Please try again.";
+    } else if (error.response?.status === 422) {
+      feedback.message = "Please check your login details.";
+    } else {
+      feedback.message = "Unable to login. Please check your connection.";
+    }
+
+    feedback.color = "error";
+    feedback.visible = true;
+
+    console.error("Login request failed:", error.message);
+  } finally {
+    // Step 6: Stop loading animation
+    isSubmitting.value = false;
+  }
 };
 
 // Simulate sending a verification code
