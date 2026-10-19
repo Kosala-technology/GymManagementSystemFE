@@ -236,13 +236,9 @@ const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
 };
 
-// Display temporary forgot-password feedback
+// Navigate to Forgot Password page
 const handleForgotPassword = () => {
-  feedback.message =
-    "Password recovery will be connected to the backend service.";
-
-  feedback.color = "info";
-  feedback.visible = true;
+  router.push({ name: "forgot-password" });
 };
 
 const handleLogin = async () => {

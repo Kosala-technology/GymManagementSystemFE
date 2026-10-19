@@ -102,7 +102,6 @@
 
             <v-text-field
               id="mobile-number"
-              ref="mobileNumberField"
               v-model.trim="formData.mobileNumber"
               :rules="mobileRules"
               type="tel"
@@ -320,6 +319,12 @@
     </div>
   </v-card>
 
+  <!-- Email Verification Dialog -->
+  <CheckYourEmailDialog
+    v-model="showCheckYourEmailDialog"
+    :email="formData.email"
+  />
+
   <!-- Development feedback -->
   <v-snackbar
     v-model="feedback.visible"
@@ -337,21 +342,15 @@
 
 <script setup>
 // Import Vue reactive utilities
-import { nextTick, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 
-// Import the reusable verification dialogs
-import SendVerificationDialog from "./dialogs/SendVerificationDialog.vue";
-import VerificationCodeDialog from "./dialogs/VerificationCodeDialog.vue";
 // Laravel Backend API Connection
 import api from "../../services/api";
 
-// Temporary code used only for frontend testing
-// Replace this with backend verification later
-const DEVELOPMENT_VERIFICATION_CODE = "123456";
+import CheckYourEmailDialog from "./dialogs/CheckYourEmailDialog.vue";
 
 // Store references to form elements
 const registrationForm = ref(null);
-const mobileNumberField = ref(null);
 
 // Track the complete form validity
 const isFormValid = ref(false);
@@ -363,16 +362,8 @@ const showConfirmPassword = ref(false);
 // Registration form loading state
 const isSubmitting = ref(false);
 
-// Verification dialog states
-const showSendVerificationDialog = ref(false);
-const showVerificationCodeDialog = ref(false);
-
-// Verification loading states
-const isSendingCode = ref(false);
-const isCodeProcessing = ref(false);
-
-// Verification error received from the backend
-const verificationError = ref("");
+// Control the email verification dialog
+const showCheckYourEmailDialog = ref(false);
 
 // Prevent future dates from being selected
 const today = new Date().toISOString().split("T")[0];
@@ -544,18 +535,13 @@ const handleRegistration = async () => {
     // Step 5: Send registration data to Laravel
     const response = await api.post("/api/register", registrationData);
 
-    // Step 6: Show successful registration message
+    // Step 6: Registration completed successfully
     const memberId = response.data.member_id;
 
-    showFeedback(
-      `Registration successful! Your Member ID is ${memberId}. You can now login.`,
-      "success",
-    );
+    console.log("Registration successful. Member ID:", memberId);
 
-    console.log("Registration successful");
-
-    // Phone verification is not implemented yet.
-    // The backend keeps phone_verified_at as null.
+    // Open the email verification dialog
+    showCheckYourEmailDialog.value = true;
   } catch (error) {
     // Step 7: Handle registration errors
     if (error.response?.status === 422) {
@@ -581,134 +567,6 @@ const handleRegistration = async () => {
     // Step 8: Stop loading
     isSubmitting.value = false;
   }
-};
-
-// --------------------------------------------------
-// Send verification code
-// --------------------------------------------------
-
-const handleSendVerificationCode = async () => {
-  if (!formData.mobileNumber) {
-    showFeedback("Please enter a valid mobile number.", "error");
-    return;
-  }
-
-  isSendingCode.value = true;
-  verificationError.value = "";
-
-  /*
-   * Replace this temporary delay with the backend request:
-   *
-   * await authService.sendVerificationCode({
-   *   mobileNumber: formData.mobileNumber,
-   * })
-   */
-  await new Promise((resolve) => {
-    setTimeout(resolve, 900);
-  });
-
-  isSendingCode.value = false;
-  showSendVerificationDialog.value = false;
-  showVerificationCodeDialog.value = true;
-
-  // Development-only message
-  showFeedback("Verification code sent. Development code: 123456", "success");
-};
-
-// --------------------------------------------------
-// Verify entered code
-// --------------------------------------------------
-
-const handleVerifyCode = async (enteredCode) => {
-  isCodeProcessing.value = true;
-  verificationError.value = "";
-
-  /*
-   * Replace this temporary delay and comparison with:
-   *
-   * await authService.verifyCode({
-   *   mobileNumber: formData.mobileNumber,
-   *   code: enteredCode,
-   * })
-   */
-  await new Promise((resolve) => {
-    setTimeout(resolve, 900);
-  });
-
-  if (enteredCode !== DEVELOPMENT_VERIFICATION_CODE) {
-    verificationError.value =
-      "The verification code is incorrect. Please try again.";
-
-    isCodeProcessing.value = false;
-    return;
-  }
-
-  isCodeProcessing.value = false;
-  showVerificationCodeDialog.value = false;
-
-  showFeedback(
-    "Mobile number verified. Registration is ready for backend integration.",
-    "success",
-  );
-
-  /*
-   * After backend integration, submit the registration data:
-   *
-   * await authService.register({
-   *   ...formData,
-   *   mobileVerified: true,
-   * })
-   *
-   * The backend should then return the unique Member ID.
-   */
-};
-
-// --------------------------------------------------
-// Resend verification code
-// --------------------------------------------------
-
-const handleResendCode = async () => {
-  isCodeProcessing.value = true;
-  verificationError.value = "";
-
-  // Replace with the real resend-code API request
-  await new Promise((resolve) => {
-    setTimeout(resolve, 700);
-  });
-
-  isCodeProcessing.value = false;
-
-  showFeedback(
-    "A new verification code was sent. Development code: 123456",
-    "success",
-  );
-};
-
-// --------------------------------------------------
-// Dialog navigation
-// --------------------------------------------------
-
-// Return from the OTP dialog to the Send Code dialog
-const returnToSendDialog = () => {
-  verificationError.value = "";
-  showVerificationCodeDialog.value = false;
-  showSendVerificationDialog.value = true;
-};
-
-// Close dialogs and focus the mobile-number field
-const focusMobileNumberField = async () => {
-  showSendVerificationDialog.value = false;
-  showVerificationCodeDialog.value = false;
-  verificationError.value = "";
-
-  await nextTick();
-
-  mobileNumberField.value?.focus();
-};
-
-// Edit the phone number from the OTP dialog
-const editMobileNumber = async () => {
-  await focusMobileNumberField();
 };
 </script>
 
