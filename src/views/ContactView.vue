@@ -108,6 +108,33 @@
               <p>Share your inquiry using our easy-to-use contact form.</p>
             </div>
           </div>
+
+          <!-- Social Media Connection Section -->
+          <div class="contact-social-section">
+            <span class="contact-social-label"> STAY CONNECTED </span>
+
+            <h3>Connect With Forward Fit</h3>
+
+            <p>Stay connected with us through your favorite platforms.</p>
+
+            <div class="contact-social-grid">
+              <div
+                v-for="social in socialPlatforms"
+                :key="social.name"
+                class="contact-social-card"
+                :class="`social-${social.key}`"
+              >
+                <div class="contact-social-icon">
+                  <v-icon :icon="social.icon" size="25" />
+                </div>
+
+                Forwardfit
+                <strong>{{ social.name }}</strong>
+
+                <span>{{ social.description }}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <v-card class="contact-form-card" elevation="0" rounded="xl">
@@ -239,6 +266,33 @@ const topics = [
     icon: "mdi-lifebuoy",
     description:
       "Find guidance about using the platform and managing your member information.",
+  },
+];
+
+const socialPlatforms = [
+  {
+    key: "whatsapp",
+    name: "WhatsApp",
+    icon: "mdi-whatsapp",
+    description: "Chat with our team",
+  },
+  {
+    key: "facebook",
+    name: "Facebook",
+    icon: "mdi-facebook",
+    description: "Follow our updates",
+  },
+  {
+    key: "instagram",
+    name: "Instagram",
+    icon: "mdi-instagram",
+    description: "Explore fitness content",
+  },
+  {
+    key: "email",
+    name: "Email",
+    icon: "mdi-email-outline",
+    description: "Contact our team",
   },
 ];
 

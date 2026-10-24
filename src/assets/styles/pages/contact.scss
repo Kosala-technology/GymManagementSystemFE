@@ -445,3 +445,286 @@
     }
   }
 }
+
+// =============================================
+// 3D SOCIAL MEDIA ICONS
+// =============================================
+
+.contact-social-section {
+  margin-top: 42px;
+
+  h3 {
+    margin: 12px 0;
+    color: #17191e;
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  > p {
+    margin-bottom: 25px;
+    color: #737780;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+}
+
+.contact-social-label {
+  color: #f04438;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.contact-social-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.contact-social-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 0;
+  padding: 25px 12px;
+
+  background: #ffffff;
+  border: 1px solid #e8e9ed;
+  border-radius: 20px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+
+  &:hover {
+    transform: perspective(600px) translateY(-8px) rotateX(5deg);
+
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.12);
+  }
+
+  strong {
+    color: #17191e;
+    font-size: 14px;
+  }
+
+  > span {
+    color: #777b85;
+    font-size: 11px;
+    text-align: center;
+  }
+}
+
+// 3D Icon Container
+.contact-social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 70px;
+  height: 70px;
+
+  margin-bottom: 7px;
+
+  color: #ffffff;
+  border-radius: 20px;
+
+  background: var(--social-background);
+
+  box-shadow:
+    inset 3px 3px 8px rgba(255, 255, 255, 0.35),
+    inset -4px -5px 9px rgba(0, 0, 0, 0.18),
+    0 8px 0 var(--social-shadow),
+    0 16px 24px var(--social-glow);
+
+  animation: social-float 3s ease-in-out infinite;
+
+  transition: transform 0.35s ease;
+}
+
+// Social Platform Colors
+.social-whatsapp {
+  --social-background: linear-gradient(145deg, #51ed86, #19b957);
+  --social-shadow: #128342;
+  --social-glow: rgba(37, 211, 102, 0.24);
+}
+
+.social-facebook {
+  --social-background: linear-gradient(145deg, #56adff, #1466dc);
+  --social-shadow: #0b449c;
+  --social-glow: rgba(24, 119, 242, 0.24);
+}
+
+.social-instagram {
+  --social-background: linear-gradient(
+    145deg,
+    #feda75,
+    #fa7e1e,
+    #d62976,
+    #8134af
+  );
+  --social-shadow: #85265e;
+  --social-glow: rgba(214, 41, 118, 0.25);
+}
+
+.social-email {
+  --social-background: linear-gradient(145deg, #ff8278, #ef392e);
+  --social-shadow: #a92420;
+  --social-glow: rgba(240, 68, 56, 0.24);
+}
+
+// Floating Animation
+@keyframes social-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+// Different Animation Timing
+.contact-social-card:nth-child(2) .contact-social-icon {
+  animation-delay: 0.4s;
+}
+
+.contact-social-card:nth-child(3) .contact-social-icon {
+  animation-delay: 0.8s;
+}
+
+.contact-social-card:nth-child(4) .contact-social-icon {
+  animation-delay: 1.2s;
+}
+
+// Mobile
+@media (max-width: 420px) {
+  .contact-social-grid {
+    gap: 12px;
+  }
+
+  .contact-social-card {
+    padding: 22px 8px;
+  }
+
+  .contact-social-icon {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+// Reduced Motion
+@media (prefers-reduced-motion: reduce) {
+  .contact-social-icon {
+    animation: none;
+  }
+
+  .contact-social-card {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+// =============================================
+// COMPACT 3D SOCIAL MEDIA ICON DESIGN
+// =============================================
+
+// Social Media Section
+.contact-social-section {
+  margin-top: 30px;
+
+  h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  > p {
+    margin-bottom: 22px;
+  }
+}
+
+// Four icons in one row on desktop
+.contact-social-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+// Remove the outer white cards
+.contact-social-card {
+  padding: 12px 4px;
+  gap: 7px;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  transform: none;
+
+  &:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: transparent;
+  }
+
+  strong {
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  > span {
+    font-size: 10px;
+  }
+}
+
+// Smaller floating 3D icon
+.contact-social-icon {
+  width: 52px;
+  height: 52px;
+
+  margin-bottom: 8px;
+  border-radius: 15px;
+
+  box-shadow:
+    inset 2px 2px 5px rgba(255, 255, 255, 0.35),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.18),
+    0 5px 0 var(--social-shadow),
+    0 10px 18px var(--social-glow);
+}
+
+// 3D hover effect on icon only
+.contact-social-card:hover .contact-social-icon {
+  animation: none;
+  transform: translateY(-5px);
+}
+
+// Mobile Responsive - Two icons per row
+@media (max-width: 600px) {
+  .contact-social-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 12px;
+  }
+
+  .contact-social-card {
+    padding: 10px 4px;
+  }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  .contact-social-icon {
+    animation: none;
+  }
+
+  .contact-social-card:hover .contact-social-icon {
+    transform: none;
+  }
+}

@@ -35,7 +35,11 @@
   align-items: center;
   gap: 40px;
 
-  min-height: 650px;
+  // Cover the entire visible screen
+  min-height: 100vh;
+  min-height: 100svh;
+
+  // Maintain spacing below the fixed navbar
   padding-top: calc($header-height + 45px);
 }
 
