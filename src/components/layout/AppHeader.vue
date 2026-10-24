@@ -18,16 +18,27 @@
       </router-link>
 
       <!-- Navigation displayed on desktop -->
+
+      <!-- Desktop Navigation -->
       <nav class="desktop-navigation" aria-label="Main navigation">
-        <a
-          v-for="item in navigationItems"
-          :key="item.name"
-          :href="item.link"
-          class="navigation-link"
-          :class="{ active: item.name === 'Home' }"
-        >
-          {{ item.name }}
-        </a>
+        <template v-for="item in navigationItems" :key="item.name">
+          <!-- Home, Programs and About Routes -->
+          <router-link
+            v-if="item.routeName"
+            :to="{ name: item.routeName }"
+            class="navigation-link"
+            :class="{
+              active: $route.name === item.routeName,
+            }"
+          >
+            {{ item.name }}
+          </router-link>
+
+          <!-- Contact Link (will be updated later) -->
+          <a v-else :href="item.link" class="navigation-link">
+            {{ item.name }}
+          </a>
+        </template>
       </nav>
 
       <!-- Desktop action buttons -->
@@ -106,20 +117,34 @@
 
     <v-divider />
 
-    <!-- Mobile navigation links -->
+    <!-- Mobile Navigation -->
     <nav class="mobile-navigation" aria-label="Mobile navigation">
-      <a
-        v-for="item in navigationItems"
-        :key="item.name"
-        :href="item.link"
-        class="mobile-navigation-link"
-        :class="{ active: item.name === 'Home' }"
-        @click="closeMobileMenu"
-      >
-        <v-icon :icon="item.icon" size="21" />
+      <template v-for="item in navigationItems" :key="item.name">
+        <!-- Home, Programs and About Routes -->
+        <router-link
+          v-if="item.routeName"
+          :to="{ name: item.routeName }"
+          class="mobile-navigation-link"
+          :class="{
+            active: $route.name === item.routeName,
+          }"
+          @click="closeMobileMenu"
+        >
+          <v-icon :icon="item.icon" size="21" />
+          <span>{{ item.name }}</span>
+        </router-link>
 
-        <span>{{ item.name }}</span>
-      </a>
+        <!-- Contact Link (will be updated later) -->
+        <a
+          v-else
+          :href="item.link"
+          class="mobile-navigation-link"
+          @click="closeMobileMenu"
+        >
+          <v-icon :icon="item.icon" size="21" />
+          <span>{{ item.name }}</span>
+        </a>
+      </template>
     </nav>
 
     <!-- Mobile action buttons -->
@@ -166,25 +191,27 @@ const closeMobileMenu = () => {
 };
 
 // Navigation links used by desktop and mobile menus
+
 const navigationItems = [
   {
     name: "Home",
-    link: "#home",
+    routeName: "home",
     icon: "mdi-home-outline",
   },
   {
     name: "Programs",
-    link: "#programs",
+    routeName: "programs",
     icon: "mdi-weight-lifter",
   },
   {
     name: "About",
-    link: "#about",
+    routeName: "about",
     icon: "mdi-information-outline",
   },
+
   {
     name: "Contact",
-    link: "#contact",
+    routeName: "contact",
     icon: "mdi-phone-outline",
   },
 ];

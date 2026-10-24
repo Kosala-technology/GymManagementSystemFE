@@ -1,0 +1,624 @@
+@use "../variables" as *;
+
+// =============================================
+// ABOUT PAGE
+// =============================================
+
+.about-page {
+  width: 100%;
+  overflow: hidden;
+  background: $background-primary;
+}
+
+// =============================================
+// SECTION 01 - HERO
+// =============================================
+
+.about-hero {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 75% 35%,
+      rgba($color-primary, 0.2),
+      transparent 45%
+    ),
+    linear-gradient(125deg, #17191e 0%, #111216 100%);
+
+  color: #ffffff;
+}
+
+.about-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: 65px;
+
+  min-height: 670px;
+  padding-top: calc($header-height + 65px);
+  padding-bottom: 90px;
+}
+
+.about-hero-content {
+  min-width: 0;
+}
+
+.about-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 9px 16px;
+  margin-bottom: 30px;
+
+  color: #ff918a;
+  background: rgba($color-primary, 0.13);
+
+  border: 1px solid rgba($color-primary, 0.3);
+  border-radius: $radius-rounded;
+
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.about-hero-title {
+  margin-bottom: 28px;
+
+  font-size: clamp(40px, 4.5vw, 66px);
+  font-weight: 800;
+  line-height: 1.13;
+  letter-spacing: -2px;
+
+  span {
+    display: block;
+    color: $color-primary-light;
+  }
+}
+
+.about-hero-description {
+  max-width: 610px;
+  margin-bottom: 34px;
+
+  color: #c6c9d0;
+  font-size: 15px;
+  line-height: 1.95;
+}
+
+.about-hero-button {
+  min-height: 52px;
+  padding: 0 25px;
+  font-weight: 800;
+  box-shadow: $shadow-primary;
+}
+
+.about-hero-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+
+  margin-top: 38px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    color: #d2d4da;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .v-icon {
+    color: $color-primary-light;
+    font-size: 19px;
+  }
+}
+
+// =============================================
+// HERO VISUAL PANEL
+// =============================================
+
+.about-hero-visual {
+  min-width: 0;
+}
+
+.about-visual-panel {
+  position: relative;
+  overflow: hidden;
+
+  padding: 32px;
+
+  background: linear-gradient(150deg, #292b32 0%, #1b1c22 100%);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 26px;
+
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.24);
+
+  &::before {
+    content: "";
+    position: absolute;
+
+    top: 12%;
+    right: -18%;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+    background: rgba($color-primary, 0.12);
+
+    pointer-events: none;
+  }
+}
+
+.about-panel-heading {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  color: #d4d6db;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+
+  .v-icon {
+    color: $color-primary-light;
+  }
+}
+
+.about-panel-symbol {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 145px;
+  height: 145px;
+
+  margin: 35px auto;
+
+  color: #ffffff;
+  background: $color-primary;
+
+  border: 12px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+
+  box-shadow: 0 15px 45px rgba($color-primary, 0.2);
+}
+
+.about-visual-panel h2 {
+  position: relative;
+  z-index: 1;
+
+  margin-bottom: 13px;
+
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+
+  span {
+    color: $color-primary-light;
+  }
+}
+
+.about-visual-panel > p {
+  position: relative;
+  z-index: 1;
+
+  color: #c6c9d0;
+  font-size: 13px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.about-panel-features {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  gap: 10px;
+
+  margin-top: 30px;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 15px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+
+    color: #f5f5f6;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .v-icon {
+    color: $color-primary-light;
+  }
+}
+
+// =============================================
+// COMMON SECTION HEADINGS
+// =============================================
+
+.about-section-heading {
+  max-width: 770px;
+  margin: 0 auto 55px;
+
+  text-align: center;
+
+  h2 {
+    margin-bottom: 18px;
+
+    color: $text-primary;
+    font-size: clamp(30px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -1.5px;
+
+    span {
+      color: $color-primary;
+    }
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: 15px;
+    line-height: 1.85;
+  }
+}
+
+.about-section-label {
+  display: inline-block;
+
+  margin-bottom: 20px;
+  padding: 8px 16px;
+
+  color: $color-primary;
+  background: $background-soft-red;
+
+  border-radius: $radius-rounded;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+// =============================================
+// SECTION 02 - MISSION AND VISION
+// =============================================
+
+.about-purpose-section {
+  padding: 105px 0;
+  background: #ffffff;
+}
+
+.about-purpose-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px;
+}
+
+.about-purpose-card {
+  padding: 38px;
+
+  background: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: 22px;
+
+  box-shadow: $shadow-small;
+  transition: $transition-default;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-medium;
+    border-color: rgba($color-primary, 0.4);
+  }
+
+  h3 {
+    margin-bottom: 14px;
+
+    color: $text-primary;
+    font-size: 23px;
+    font-weight: 800;
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+}
+
+.about-purpose-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 72px;
+  height: 72px;
+
+  margin-bottom: 25px;
+
+  color: $color-primary;
+  background: $background-soft-red;
+  border-radius: 18px;
+}
+
+// =============================================
+// SECTION 03 - FEATURES
+// =============================================
+
+.about-features-section {
+  padding: 105px 0;
+  background: $background-secondary;
+}
+
+.about-features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.about-feature-card {
+  min-width: 0;
+  padding: 28px;
+
+  background: #ffffff;
+  border: 1px solid $border-color;
+  border-radius: 20px;
+
+  transition: $transition-default;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: $shadow-medium;
+  }
+
+  h3 {
+    margin-bottom: 12px;
+
+    color: $text-primary;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.45;
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: 13px;
+    line-height: 1.85;
+  }
+}
+
+.about-feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 65px;
+  height: 65px;
+
+  margin-bottom: 24px;
+
+  color: $color-primary;
+  background: $background-soft-red;
+  border-radius: 16px;
+}
+
+// =============================================
+// SECTION 04 - CTA
+// =============================================
+
+.about-cta-section {
+  padding: 85px 0;
+  background: #ffffff;
+}
+
+.about-cta-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+
+  padding: 55px 60px;
+
+  color: #ffffff;
+  background: #17191e;
+  border-radius: 26px;
+
+  > div {
+    max-width: 660px;
+  }
+
+  h2 {
+    margin-bottom: 15px;
+
+    font-size: clamp(28px, 3vw, 39px);
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  p {
+    color: #c9cbd0;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+}
+
+.about-cta-label {
+  display: block;
+  margin-bottom: 15px;
+
+  color: $color-primary-light;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.about-cta-button {
+  flex-shrink: 0;
+
+  min-height: 52px;
+  padding: 0 25px;
+
+  font-weight: 800;
+  box-shadow: $shadow-primary;
+}
+
+// =============================================
+// RESPONSIVE - TABLET
+// =============================================
+
+@media (max-width: $breakpoint-tablet) {
+  .about-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+
+    padding-bottom: 70px;
+  }
+
+  .about-hero-content {
+    text-align: center;
+  }
+
+  .about-hero-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .about-hero-highlights {
+    justify-content: center;
+  }
+
+  .about-hero-visual {
+    width: min(100%, 550px);
+    margin: 0 auto;
+  }
+
+  .about-features-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-cta-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+// =============================================
+// RESPONSIVE - MOBILE
+// =============================================
+
+@media (max-width: $breakpoint-mobile) {
+  .about-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 35px;
+
+    padding-top: 130px;
+    padding-bottom: 55px;
+  }
+
+  .about-badge {
+    max-width: 100%;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .about-hero-title {
+    font-size: clamp(30px, 8vw, 40px);
+    line-height: 1.18;
+    letter-spacing: -1px;
+    overflow-wrap: break-word;
+  }
+
+  .about-hero-description {
+    font-size: 13px;
+    line-height: 1.85;
+  }
+
+  .about-hero-highlights {
+    gap: 15px;
+  }
+
+  .about-visual-panel {
+    padding: 25px 20px;
+  }
+
+  .about-visual-panel h2 {
+    font-size: 25px;
+  }
+
+  .about-panel-symbol {
+    width: 120px;
+    height: 120px;
+  }
+
+  .about-purpose-section,
+  .about-features-section {
+    padding: 70px 0;
+  }
+
+  .about-section-heading {
+    margin-bottom: 38px;
+
+    h2 {
+      font-size: 30px;
+    }
+
+    p {
+      font-size: 13px;
+    }
+  }
+
+  .about-purpose-grid,
+  .about-features-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-purpose-card {
+    padding: 28px;
+  }
+
+  .about-cta-section {
+    padding: 60px 0;
+  }
+
+  .about-cta-content {
+    padding: 35px 25px;
+  }
+
+  .about-cta-button {
+    width: 100%;
+  }
+}
+
+// =============================================
+// ACCESSIBILITY
+// =============================================
+
+@media (prefers-reduced-motion: reduce) {
+  .about-purpose-card,
+  .about-feature-card {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
