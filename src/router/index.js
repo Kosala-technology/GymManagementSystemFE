@@ -26,27 +26,39 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
-  // Step 1: Allow public pages without an authentication check
-  if (!to.meta.requiresAuth && !to.meta.guestOnly) {
+  // Step 1: Identify Admin Routes
+  const isAdminRoute = to.matched.some((record) => record.path === "/admin");
+
+  // Step 2: Determine authentication requirements
+  const requiresAuth = Boolean(to.meta.requiresAuth) || isAdminRoute;
+
+  const guestOnly = Boolean(to.meta.guestOnly);
+
+  // Allow public pages without checking authentication
+  if (!requiresAuth && !guestOnly) {
     return true;
   }
 
   let authenticatedUser = null;
 
-  // Step 2: Check Laravel authentication session
+  // Step 3: Verify Laravel authentication session
   try {
-    const response = await api.get("/api/user");
+    const response = await api.get("/api/user", {
+      timeout: guestOnly ? 2000 : 10000,
+    });
 
     authenticatedUser = response.data;
   } catch (error) {
-    // 401 means the user is not authenticated
-    if (error.response?.status !== 401) {
+    const isTimeout =
+      error.code === "ECONNABORTED" || error.code === "ETIMEDOUT";
+
+    if (error.response?.status !== 401 && !isTimeout) {
       console.error("Authentication check failed:", error);
     }
   }
 
-  // Step 3: Protect customer pages
-  if (to.meta.requiresAuth && !authenticatedUser) {
+  // Step 4: Block unauthenticated users
+  if (requiresAuth && !authenticatedUser) {
     return {
       name: "login",
       query: {
@@ -55,15 +67,25 @@ router.beforeEach(async (to) => {
     };
   }
 
-  // Step 4: Redirect authenticated users away
-  // from Login and Registration pages
-  if (to.meta.guestOnly && authenticatedUser) {
+  // Step 5: Restrict Admin pages to Admin users
+  if (isAdminRoute && authenticatedUser?.role !== "admin") {
     return {
-      name: "customer-dashboard",
+      name: "home",
     };
   }
 
-  // Step 5: Allow navigation
+  // Step 6: Redirect authenticated users
+  // away from Login and Registration pages
+  if (guestOnly && authenticatedUser) {
+    return {
+      name:
+        authenticatedUser.role === "admin"
+          ? "admin-dashboard"
+          : "customer-dashboard",
+    };
+  }
+
+  // Step 7: Allow navigation
   return true;
 });
 
