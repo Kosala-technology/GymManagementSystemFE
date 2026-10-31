@@ -22,6 +22,15 @@
           @back="goToDashboard"
         />
 
+        <!-- Customer Workout Progress Overview -->
+        <WorkoutProgressOverview :schedules="schedules" />
+
+        <!-- Interactive Weekly Workout Calendar -->
+        <WeeklyWorkoutCalendar
+          :schedules="schedules"
+          @open-schedule="openWorkoutSession"
+        />
+
         <!-- Schedule filters -->
         <WorkoutFilterTabs
           v-model="selectedFilter"
@@ -93,6 +102,12 @@
             View All Schedules
           </v-btn>
         </v-card>
+
+        <!-- Completed Workout History -->
+        <WorkoutHistory
+          :schedules="schedules"
+          @open-schedule="openWorkoutSession"
+        />
       </div>
     </main>
 
@@ -128,6 +143,9 @@ import DashboardHeader from "../../components/dashboard/DashboardHeader.vue";
 import WorkoutScheduleHeader from "../../components/workout/WorkoutScheduleHeader.vue";
 import WorkoutFilterTabs from "../../components/workout/WorkoutFilterTabs.vue";
 import DailyScheduleCard from "../../components/workout/DailyScheduleCard.vue";
+import WeeklyWorkoutCalendar from "../../components/workout/WeeklyWorkoutCalendar.vue";
+import WorkoutProgressOverview from "../../components/workout/WorkoutProgressOverview.vue";
+import WorkoutHistory from "../../components/workout/WorkoutHistory.vue";
 
 import {
   sampleWorkoutCustomer,
