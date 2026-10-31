@@ -2,6 +2,7 @@
 import CustomerDashboardView from "../../views/customer/CustomerDashboardView.vue";
 import WorkoutScheduleView from "../../views/customer/WorkoutScheduleView.vue";
 import WorkoutSessionView from "../../views/customer/WorkoutSessionView.vue";
+import CustomerProfileView from "../../views/customer/CustomerProfileView.vue";
 
 // Customer-related route definitions
 const customerRoutes = [
@@ -12,6 +13,17 @@ const customerRoutes = [
 
     meta: {
       title: "Customer Dashboard | FORWARD FIT",
+      requiresAuth: true,
+    },
+  },
+
+  {
+    path: "/customer/profile",
+    name: "customer-profile",
+    component: CustomerProfileView,
+
+    meta: {
+      title: "My Profile | FORWARD FIT",
       requiresAuth: true,
     },
   },

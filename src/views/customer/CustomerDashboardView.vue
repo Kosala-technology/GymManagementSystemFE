@@ -226,8 +226,11 @@ const handleWorkoutSchedule = () => {
 };
 
 // Profile button action
+
 const handleProfile = () => {
-  displayMessage("The Customer Profile page will be added later.");
+  router.push({
+    name: "customer-profile",
+  });
 };
 
 // Trainer information action

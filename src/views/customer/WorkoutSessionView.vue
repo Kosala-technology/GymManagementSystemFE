@@ -464,12 +464,9 @@ const goToWorkoutSchedule = () => {
 };
 
 const handleProfile = () => {
-  feedback.value = {
-    visible: true,
-    message: "The Customer Profile page will be added later.",
-    color: "info",
-    icon: "mdi-information-outline",
-  };
+  router.push({
+    name: "customer-profile",
+  });
 };
 
 const handleLogout = async () => {
